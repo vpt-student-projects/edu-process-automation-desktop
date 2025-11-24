@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using volpt.MVVM.ViewModel;
 
 namespace volpt
 {
@@ -19,7 +20,7 @@ namespace volpt
         public MainWindow()
         {
             InitializeComponent();
-        }
-
+			DataContext = new MainWindowViewModel();
+		}
 	}
 }

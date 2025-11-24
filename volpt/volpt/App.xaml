@@ -4,6 +4,50 @@
              xmlns:local="clr-namespace:volpt"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <!-- Цвета -->
+        <Color x:Key="PrimaryColor">#567DB8</Color>
+        <Color x:Key="SecondaryColor">#9CB8E2</Color>
+        <Color x:Key="AccentLight">#6094E1</Color>
+        <Color x:Key="Light2">#E7E7EB</Color>
+        <Color x:Key="Text">#EDEFF2</Color>
+        <Color x:Key="BackgroundLight">#F9FAFB</Color>
+
+        <SolidColorBrush x:Key="PrimaryColorBrush" Color="{StaticResource PrimaryColor}"/>
+        <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource SecondaryColor}"/>
+        <SolidColorBrush x:Key="AccentLightBrush" Color="{StaticResource AccentLight}"/>
+        <SolidColorBrush x:Key="Light2Brush" Color="{StaticResource Light2}"/>
+        <SolidColorBrush x:Key="TextBrush" Color="{StaticResource Text}"/>
+        <SolidColorBrush x:Key="BackgroundLightBrush" Color="{StaticResource BackgroundLight}"/>
+
+        <FontFamily x:Key="SFProRounded-Regular">pack://application:,,,/Fonts/#SF Pro Rounded Regular</FontFamily>
+        <FontFamily x:Key="SFProRounded-Medium">pack://application:,,,/Fonts/#SF Pro Rounded Medium</FontFamily>
+        <FontFamily x:Key="SFProRounded-Semibold">pack://application:,,,/Fonts/#SF Pro Rounded Semibold</FontFamily>
+        <FontFamily x:Key="SFProRounded-Bold">pack://application:,,,/Fonts/#SF Pro Rounded Bold</FontFamily>
+        <FontFamily x:Key="SFProRounded-Light">pack://application:,,,/Fonts/#SF Pro Rounded Light</FontFamily>
+
+        <FontFamily x:Key="SFCompactRounded-Regular">pack://application:,,,/Fonts/#SF Compact Rounded Regular</FontFamily>
+        <FontFamily x:Key="SFCompactRounded-Medium">pack://application:,,,/Fonts/#SF Compact Rounded Medium</FontFamily>
+        <FontFamily x:Key="SFCompactRounded-Semibold">pack://application:,,,/Fonts/#SF Compact Rounded Semibold</FontFamily>
+        <FontFamily x:Key="SFCompactRounded-Bold">pack://application:,,,/Fonts/#SF Compact Rounded Bold</FontFamily>
+        <FontFamily x:Key="SFCompactRounded-Light">pack://application:,,,/Fonts/#SF Compact Rounded Light</FontFamily>
+
+        <Style x:Key="H1" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource Light2Brush}"/>
+            <Setter Property="FontFamily" Value="{StaticResource SFProRounded-Semibold}"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="H2" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryColorBrush}"/>
+            <Setter Property="FontFamily" Value="{StaticResource SFProRounded-Bold}"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="H3" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryColorBrush}"/>
+            <Setter Property="FontFamily" Value="{StaticResource SFProRounded-Bold}"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
     </Application.Resources>
 </Application>

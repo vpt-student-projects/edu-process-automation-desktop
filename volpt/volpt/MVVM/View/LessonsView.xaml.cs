@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using volpt.MVVM.Model;
 
 namespace volpt.MVVM.View
 {
@@ -20,6 +21,32 @@ namespace volpt.MVVM.View
 		public LessonsView()
 		{
 			InitializeComponent();
+		}
+
+		public LessonItem Lesson
+		{
+			get => (LessonItem)GetValue(LessonProperty);
+			set => SetValue(LessonProperty, value);
+		}
+
+		public static readonly DependencyProperty LessonProperty =
+			DependencyProperty.Register(nameof(Lesson),
+				typeof(LessonItem),
+				typeof(LessonsView),
+				new PropertyMetadata(null, OnLessonChanged));
+
+		private static void OnLessonChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			var control = (LessonsView)d;
+			var lesson = (LessonItem)e.NewValue;
+
+			if (lesson == null) return;
+
+			control.num.Text = lesson.Number;
+			control.subject.Text = lesson.Subject;
+			control.time.Text = lesson.Time;
+			control.group.Text = lesson.Group;
+			control.room.Text = lesson.Room;
 		}
 	}
 }

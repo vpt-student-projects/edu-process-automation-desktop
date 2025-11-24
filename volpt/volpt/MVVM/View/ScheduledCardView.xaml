@@ -24,23 +24,14 @@
                                Padding="10,2.5,10,2.5" />
                 </Grid>
             </Border>
-            <StackPanel Grid.Row="1"
-                        Margin="8">
+            <ItemsControl x:Name="lessonsList" Grid.Row="1" Margin="8">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:LessonsView />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
-                <!-- ОДНА ПАРА -->
-                <local:LessonsView/>
-                <local:LessonsView/>
-                <local:LessonsView/>
-                <local:LessonsView/>
-
-                <!-- ВТОРАЯ ПАРА -->
-                <local:LessonsView />
-
-                <!-- ТРЕТЬЯ ПАРА -->
-                <local:LessonsView />
-
-                <!-- Добавляй сколько нужно -->
-            </StackPanel>
         </Grid>
     </Border>
 </UserControl>
