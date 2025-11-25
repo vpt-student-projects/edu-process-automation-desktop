@@ -33,11 +33,10 @@
                                 Content="Список групп" 
                                 FontSize="16" 
                                 VerticalAlignment="Center" Margin="0,4,16,4"/>
-                        <Button x:Name="exit" Width="23" Height="19" BorderBrush="{x:Null}" Padding="1">
+                        <Button x:Name="exit" Width="23" Height="19" BorderBrush="{x:Null}">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
-                                    <Border x:Name="Border"
-                    BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                                    <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="4">
                                         <Image Source="/Images/logout.png" Stretch="Uniform"/>
                                     </Border>
                                     <ControlTemplate.Triggers>
