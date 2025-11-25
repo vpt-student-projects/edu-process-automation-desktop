@@ -27,6 +27,7 @@
     <None Remove="Fonts\SF-Pro-Rounded-Semibold.otf" />
     <None Remove="Fonts\SF-Pro-Rounded-Thin.otf" />
     <None Remove="Fonts\SF-Pro-Rounded-Ultralight.otf" />
+    <None Remove="Images\chevron.left.png" />
     <None Remove="Images\logout.png" />
     <None Remove="Images\numbersign.png" />
     <None Remove="Images\person.jpg" />
@@ -34,10 +35,6 @@
     <None Remove="Images\впт_логотип 1.jpg" />
     <None Remove="Images\впт_логотипsmall.png" />
     <None Remove="logout.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Theme\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -106,6 +103,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Fonts\SF-Pro-Rounded-Ultralight.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\chevron.left.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\logout.png">

@@ -10,11 +10,11 @@
                 <Grid Height="58" VerticalAlignment="Center" Margin="24,8">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <Image Source="/Images/впт_логотипsmall.png" Width="72" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Text="ВПТ: Образование" VerticalAlignment="Center" Foreground="White" FontSize="24" FontWeight="SemiBold"/>
+                        <TextBlock Text="ВПТ: Образование" Style="{StaticResource H1}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
-                        <Button x:Name="schedule" Content="Расписание" FontSize="16" VerticalAlignment="Center" Margin="8,4"/>
-                        <Button x:Name="groups" Content="Список групп" FontSize="16" VerticalAlignment="Center" Margin="0,4,16,4"/>
+                        <RadioButton x:Name="schedule" Content="Расписание" FontSize="16" VerticalAlignment="Center" Margin="8,4"/>
+                        <RadioButton x:Name="groups" Content="Список групп" FontSize="16" VerticalAlignment="Center" Margin="0,4,16,4"/>
                         <Button Width="23" Height="19" BorderBrush="{x:Null}">
                             <Button.Background>
                                 <ImageBrush ImageSource="/Images/logout.png" Stretch="Uniform"/>
@@ -24,20 +24,33 @@
                 </Grid>
             </Border>
             <Grid Grid.Row="1" Margin="32,2">
-                <TextBlock Text="Расписание" FontSize="22" FontWeight="Bold" Foreground="#567DB8" HorizontalAlignment="Left"/>
+                <TextBlock Text="Расписание" Style="{StaticResource H2}" HorizontalAlignment="Left"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="&lt;" Width="30" BorderBrush="{x:Null}" Background="{x:Null}" FontSize="20" Foreground="#FF6094E1"/>
-                    <TextBlock Text="00.00.2025" Margin="10,0" VerticalAlignment="Center" FontSize="20" Foreground="#FF6094E1"/>
-                    <Button Content="&gt;" Width="30" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="20" Foreground="#FF6094E1"/>
+                    <Button BorderBrush="{x:Null}" Background="{x:Null}">
+                        <Image Width="12" Height="19" Source="/Images/chevron.left.png"/>
+                    </Button>
+                    <TextBlock Text="00.00-00.00" Style="{StaticResource H4}" />
+                    <Button BorderBrush="{x:Null}" Background="{x:Null}">
+                        <Image Width="12" Height="19" Source="/Images/chevron.left.png" RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="-1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Image.RenderTransform>
+                        </Image>
+                    </Button>
                 </StackPanel>
             </Grid>
             <ItemsControl ItemsSource="{Binding Days}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <controls:AdaptiveUniformGrid 
-                Columns="3"
-                RowSpacing="16"
-                ColumnSpacing="16"/>
+                            Columns="3"
+                            RowSpacing="16"
+                            ColumnSpacing="16"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
 

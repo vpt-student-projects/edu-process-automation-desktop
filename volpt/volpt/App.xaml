@@ -39,7 +39,7 @@
         </Style>
         <Style x:Key="H2" TargetType="TextBlock">
             <Setter Property="Foreground" Value="{StaticResource PrimaryColorBrush}"/>
-            <Setter Property="FontFamily" Value="{StaticResource SFProRounded-Bold}"/>
+            <Setter Property="FontFamily" Value="{StaticResource SFProRounded-Semibold}"/>
             <Setter Property="FontSize" Value="22"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
@@ -47,6 +47,24 @@
             <Setter Property="Foreground" Value="{StaticResource PrimaryColorBrush}"/>
             <Setter Property="FontFamily" Value="{StaticResource SFProRounded-Bold}"/>
             <Setter Property="FontSize" Value="20"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="H4" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryColorBrush}"/>
+            <Setter Property="FontFamily" Value="{StaticResource SFProRounded-Regular}"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="H5" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryColorBrush}"/>
+            <Setter Property="FontFamily" Value="{StaticResource SFProRounded-Regular}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="H6" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryColorBrush}"/>
+            <Setter Property="FontFamily" Value="{StaticResource SFProRounded-Regular}"/>
+            <Setter Property="FontSize" Value="12"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
     </Application.Resources>
