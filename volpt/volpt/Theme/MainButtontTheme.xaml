@@ -20,14 +20,14 @@
                     <ControlTemplate.Triggers>
                         <!-- При наведении -->
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="#7EA8E7"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ActiveBtnBrush}"/>
                             <Setter Property="Cursor" Value="Hand"/>
                             <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
                         </Trigger>
 
                         <!-- При нажатии -->
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="#7EA8E7"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ActiveBtnBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
