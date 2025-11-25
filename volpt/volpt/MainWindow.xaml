@@ -1,4 +1,14 @@
 ﻿<Window x:Class="volpt.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:volpt" xmlns:view="clr-namespace:volpt.MVVM.View" xmlns:controls="clr-namespace:volpt.Core" mc:Ignorable="d" Title="MainWindow" Height="768" Width="1024" Background="Transparent">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Подключаем наш словарь со стилями -->
+                <ResourceDictionary Source="/Theme/MainButtontTheme.xaml"/>
+                <ResourceDictionary Source="/Theme/Color.xaml"/>
+                <ResourceDictionary Source="/Theme/TextStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Border Background="#FFE7E7EB">
         <Grid>
             <Grid.RowDefinitions>
@@ -13,8 +23,16 @@
                         <TextBlock Text="ВПТ: Образование" Style="{StaticResource H1}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
-                        <RadioButton x:Name="schedule" Content="Расписание" FontSize="16" VerticalAlignment="Center" Margin="8,4"/>
-                        <RadioButton x:Name="groups" Content="Список групп" FontSize="16" VerticalAlignment="Center" Margin="0,4,16,4"/>
+                        <Button x:Name="schedule" 
+                                     Style="{StaticResource MainButtonStyle}"
+                                     Content="Расписание" 
+                                     FontSize="16" VerticalAlignment="Center" 
+                                     Margin="8,4"/>
+                        <Button x:Name="groups" 
+                                Style="{StaticResource MainButtonStyle}"
+                                Content="Список групп" 
+                                FontSize="16" 
+                                VerticalAlignment="Center" Margin="0,4,16,4"/>
                         <Button Width="23" Height="19" BorderBrush="{x:Null}">
                             <Button.Background>
                                 <ImageBrush ImageSource="/Images/logout.png" Stretch="Uniform"/>
@@ -44,7 +62,7 @@
                     </Button>
                 </StackPanel>
             </Grid>
-            <ItemsControl ItemsSource="{Binding Days}">
+            <ItemsControl ItemsSource="{Binding Days}" Grid.Row="2">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <controls:AdaptiveUniformGrid 
