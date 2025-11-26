@@ -30,24 +30,7 @@ namespace volpt.MVVM.View
 		}
 
 		public static readonly DependencyProperty LessonProperty =
-			DependencyProperty.Register(nameof(Lesson),
-				typeof(LessonItem),
-				typeof(LessonsView),
-				new PropertyMetadata(null, OnLessonChanged));
-
-		private static void OnLessonChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			var control = (LessonsView)d;
-			var lesson = (LessonItem)e.NewValue;
-
-			if (lesson == null) return;
-
-			control.num.Text = lesson.Number;
-			control.subject.Text = lesson.Subject;
-			control.time.Text = lesson.Time;
-			control.group.Text = lesson.Group;
-			control.room.Text = lesson.Room;
-		}
+			DependencyProperty.Register(nameof(Lesson), typeof(LessonItem), typeof(LessonsView));
 	}
 }
 

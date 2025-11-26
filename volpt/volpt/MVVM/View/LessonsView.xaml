@@ -32,28 +32,32 @@
                                     Height="14" Width="14"
                                     CornerRadius="4"
                                     VerticalAlignment="Center">
-                                <TextBlock x:Name="num" Style="{StaticResource H6}" 
+                                <TextBlock Text="{Binding Lesson.Number, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                           Style="{StaticResource H6}" 
                                            HorizontalAlignment="Center"/>
                             </Border>
-                            <TextBlock x:Name="subject" Style="{StaticResource H6}" />
+                            <TextBlock Text="{Binding Lesson.Subject, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                       Style="{StaticResource H6}" />
                         </StackPanel>
 
-                        <TextBlock x:Name="time" Style="{StaticResource H6}"
-                           
-                            HorizontalAlignment="Right"
-                           Grid.Column="1" Grid.Row="0"/>
+                        <TextBlock Text="{Binding Lesson.Time, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                   Style="{StaticResource H6}" 
+                                   HorizontalAlignment="Right"
+                                   Grid.Column="1" Grid.Row="0"/>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
-                     VerticalAlignment="Center"
-                    Grid.Column="1" Grid.Row="1">
+                                    VerticalAlignment="Center"
+                                    Grid.Column="1" Grid.Row="1">
                             <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,0,4,0" HorizontalAlignment="Right">
                                 <Image Source="/volpt;component/Images/person.png" Margin="1,0" VerticalAlignment="Center" Width="16"/>
-                                <TextBlock x:Name="group" Style="{StaticResource H6}"
-                            Foreground="#9CB8E2"/>
+                                <TextBlock Text="{Binding Lesson.Group, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                           Style="{StaticResource H6}"
+                                           Foreground="#9CB8E2"/>
                             </StackPanel>
                             <StackPanel Grid.Column="1" Orientation="Horizontal"  HorizontalAlignment="Right">
                                 <Image Source="/volpt;component/Images/numbersign.png" Margin="1,0" VerticalAlignment="Center" Width="13"/>
-                                <TextBlock  x:Name="room" Style="{StaticResource H6}"
+                                <TextBlock  Text="{Binding Lesson.Room, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Style="{StaticResource H6}"
                              Foreground="#9CB8E2"/>
                             </StackPanel>
                         </StackPanel>
