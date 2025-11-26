@@ -101,7 +101,7 @@ namespace TimetableJson
         {
             try
             {
-                string json = await _httpClient.GetStringAsync("http://volptbot.ru:8000/tt");
+                string json = await _httpClient.GetStringAsync("https://timetable.volptbot.ru/timetable.json");
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
                 var response = JsonSerializer.Deserialize<ApiTimetableResponse>(json, options);
                 return response;
