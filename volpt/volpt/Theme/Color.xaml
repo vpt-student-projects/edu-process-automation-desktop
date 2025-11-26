@@ -7,7 +7,9 @@
     <Color x:Key="Light2">#E7E7EB</Color>
     <Color x:Key="Text">#EDEFF2</Color>
     <Color x:Key="BackgroundLight">#F9FAFB</Color>
-    <Color x:Key="ActiveBtn">#7EA8E7</Color> 
+    <Color x:Key="ActiveBtn">#7EA8E7</Color>
+    <Color x:Key="HoverLessons">#E2ECFA</Color>
+    
     <!--Цвета для заливки-->
     <SolidColorBrush x:Key="PrimaryColorBrush" Color="{StaticResource PrimaryColor}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource SecondaryColor}"/>
@@ -16,4 +18,6 @@
     <SolidColorBrush x:Key="TextBrush" Color="{StaticResource Text}"/>
     <SolidColorBrush x:Key="BackgroundLightBrush" Color="{StaticResource BackgroundLight}"/>
     <SolidColorBrush x:Key="ActiveBtnBrush" Color="{StaticResource ActiveBtn}"/>
+    <SolidColorBrush x:Key="HoverLessonsBrush" Color="{StaticResource HoverLessons}"/>
+
 </ResourceDictionary>

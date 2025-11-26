@@ -72,7 +72,7 @@
                     </Button>
                 </StackPanel>
             </Grid>
-            <ItemsControl ItemsSource="{Binding Days}" Grid.Row="2">
+            <ItemsControl ItemsSource="{Binding Schedule}" Grid.Row="2">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <controls:AdaptiveUniformGrid 
