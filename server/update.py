@@ -20,7 +20,6 @@ logging.basicConfig(
     ]
 )
 
-
 class TimetableProcessor:
     def __init__(self):
         self.db_config = {
@@ -178,7 +177,7 @@ class TimetableProcessor:
             if r:
                 return r[0]
             login = self.generate_login(teacher_name)
-            # Default password hash — better replace with actual hash
+            
             cur.execute("""
                 INSERT INTO "User" ("Login", "FullName", "RoleId", "PasswordHash")
                 VALUES (%s, %s, 2, 'default_password_hash')
@@ -255,19 +254,16 @@ class TimetableProcessor:
                     "SubjectId" = EXCLUDED."SubjectId",
                     "Classroom" = EXCLUDED."Classroom";
             """, (date_obj, lesson_number, user_id, subject_id, group_id, classroom))
-            # Don't commit here — commit once at the end of the day processing
+            
             return True
         except Exception as e:
             logging.error(f"Error upserting lesson: {e}")
             return False
 
     def delete_absent_lessons_for_group_date(self, conn, group_id, date_obj, present_numbers):
-        """
-        Delete only the lessons for this group and date whose numbers are NOT in present_numbers.
-        If present_numbers is empty — do not delete (safer).
-        """
+        
         if not present_numbers:
-            logging.info(f"API returned an empty lesson list for group {group_id} on {date_obj} — skipping deletion (safer).")
+            logging.info(f"API returned an empty lesson list for group {group_id} on {date_obj} skipping deletion (safer).")
             return 0
         try:
             cur = conn.cursor()
@@ -277,7 +273,6 @@ class TimetableProcessor:
                 WHERE "GroupId" = %s AND "Date" = %s AND "Number" NOT IN %s
             """, (group_id, date_obj, tuple(present_numbers)))
             deleted = cur.rowcount
-            logging.info(f"Deleted {deleted} lessons for group {group_id} on {date_obj} (absent in API)")
             return deleted
         except Exception as e:
             logging.error(f"Error deleting absent lessons: {e}")
@@ -348,7 +343,6 @@ class TimetableProcessor:
                         lessons = group_data.get('lessons') or []
                         if not lessons:
                             logging.debug(f"No lessons for group {group_name} on {date_obj}")
-                            # if no lessons — do not delete (safer)
                             continue
 
                         # get or create group
@@ -402,7 +396,7 @@ class TimetableProcessor:
                             else:
                                 errors += 1
 
-                        # After insert/update — delete absent lessons (only for this group+date).
+                        # After insert/update delete absent lessons (only for this group+date).
                         # Delete only if API returned non-empty present_numbers (safer)
                         self.delete_absent_lessons_for_group_date(conn, group_id, date_obj, present_numbers)
 
