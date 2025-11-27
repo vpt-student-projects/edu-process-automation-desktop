@@ -50,6 +50,75 @@ class TimetableProcessor:
             logging.error(f"API request error: {e}")
             return None
 
+    def get_last_timestamp(self):
+        
+        if self.last_timestamp is not None:
+            return self.last_timestamp
+
+        conn = self.get_db_connection()
+        if not conn:
+            return 0
+
+        try:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT value FROM system_settings 
+                WHERE key = 'last_timetable_timestamp'
+            """)
+            result = cursor.fetchone()
+            if result:
+                self.last_timestamp = int(result[0])
+                logging.info(f"Loaded last timestamp from DB: {self.last_timestamp}")
+            else:
+                self.last_timestamp = 0
+                logging.info("No previous timestamp found, using 0")
+            return self.last_timestamp
+        except Exception as e:
+            logging.error(f"Error loading timestamp: {e}")
+            return 0
+        finally:
+            conn.close()
+
+    def save_last_timestamp(self, timestamp):
+        
+        conn = self.get_db_connection()
+        if not conn:
+            return False
+
+        try:
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO system_settings (key, value) 
+                VALUES ('last_timetable_timestamp', %s)
+                ON CONFLICT (key) 
+                DO UPDATE SET value = EXCLUDED.value, updated_at = CURRENT_TIMESTAMP
+            """, (str(timestamp),))
+            conn.commit()
+            self.last_timestamp = timestamp
+            logging.info(f"Saved new timestamp: {timestamp}")
+            return True
+        except Exception as e:
+            logging.error(f"Error saving timestamp: {e}")
+            return False
+        finally:
+            conn.close()
+
+    def is_data_updated(self, api_data):
+        
+        if not api_data or 'time' not in api_data:
+            logging.error("No timestamp in API data")
+            return False
+
+        current_timestamp = api_data['time']
+        last_timestamp = self.get_last_timestamp()
+
+        if current_timestamp == last_timestamp:
+            logging.info(f"Data not updated (current: {current_timestamp}, last: {last_timestamp})")
+            return False
+        else:
+            logging.info(f"Data updated! (current: {current_timestamp}, last: {last_timestamp})")
+            return True
+
     def try_parse_date(self, date_str):
         """Parse format like 'Monday 25.11.24' or '25.11.24'"""
         try:
@@ -229,6 +298,10 @@ class TimetableProcessor:
             logging.error("Invalid API data or missing 'timetable'")
             return False
 
+        if not self.is_data_updated(api_data):
+            logging.info("Data not updated, skipping processing")
+            return True
+
         # Process only today and tomorrow
         today = date.today()
         tomorrow = today + timedelta(days=1)
@@ -334,7 +407,13 @@ class TimetableProcessor:
                         self.delete_absent_lessons_for_group_date(conn, group_id, date_obj, present_numbers)
 
             conn.commit()
-            logging.info(f"Processing finished. Created/updated: {processed}, errors: {errors}")
+            
+            if processed > 0 or errors == 0:
+                self.save_last_timestamp(api_data['time'])
+                logging.info(f"Processing finished. Created/updated: {processed}, errors: {errors}")
+            else:
+                logging.error(f"Processing finished with errors. Created/updated: {processed}, errors: {errors}")
+                
             return True
         except Exception as e:
             logging.error(f"Processing error: {e}")
@@ -345,6 +424,7 @@ class TimetableProcessor:
 
     def run(self):
         logging.info("Starting timetable sync...")
+            
         api_data = self.fetch_data_from_api()
         if not api_data:
             logging.error("Failed to fetch API data")
