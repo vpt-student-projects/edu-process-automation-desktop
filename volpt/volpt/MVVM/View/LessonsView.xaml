@@ -5,7 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:volpt.MVVM.View"
              mc:Ignorable="d"
-             d:DesignHeight="40" d:DesignWidth="282.67" >
+             d:DesignHeight="40" d:DesignWidth="282.67" 
+             
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True">
     <Button Background="Transparent"
             BorderThickness="0"
             HorizontalContentAlignment="Stretch"
@@ -16,7 +19,7 @@
                 <Border x:Name="Border" Background="Transparent"
                     BorderBrush="#6094E1"
                     BorderThickness="1"
-                    CornerRadius="8" Padding="6">
+                    CornerRadius="8" Padding="6" Margin="0,0,0,8">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -27,11 +30,19 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal"
-                                    Grid.Column="0" Grid.Row="0" >
+                                    Grid.Column="0" Grid.Row="0">
                             <Border Background="{StaticResource BackgroundLightBrush}" 
                                     Height="14" Width="14"
                                     CornerRadius="4"
+                                    Margin="0,0,4,0"
                                     VerticalAlignment="Center">
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="1" 
+                                                      Opacity="0.8" 
+                                                      BlurRadius="2" 
+                                                      Color="{StaticResource AccentLight}"
+                                                      Direction="650"/>
+                                </Border.Effect>
                                 <TextBlock Text="{Binding Number}"
                                            Style="{StaticResource H6}" 
                                            HorizontalAlignment="Center"/>
@@ -51,13 +62,13 @@
                             <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,0,4,0" HorizontalAlignment="Right">
                                 <Image Source="/volpt;component/Images/person.png" Margin="1,0" VerticalAlignment="Center" Width="16"/>
                                 <TextBlock Text="{Binding Group}"
-                                           Style="{StaticResource H5}"
+                                           Style="{StaticResource H6}"
                                            Foreground="{StaticResource SecondaryBrush}"/>
                             </StackPanel>
                             <StackPanel Grid.Column="1" Orientation="Horizontal"  HorizontalAlignment="Right">
                                 <Image Source="/volpt;component/Images/numbersign.png" Margin="1,0" VerticalAlignment="Center" Width="13"/>
                                 <TextBlock Text="{Binding Room}"
-                                            Style="{StaticResource H5}"
+                                            Style="{StaticResource H6}"
                              Foreground="{StaticResource SecondaryBrush}"/>
                             </StackPanel>
                         </StackPanel>

@@ -16,10 +16,8 @@ namespace volpt.MVVM.ViewModel
 		public User CurrentUser { get; set; }
 
 		public MainWindowViewModel()
-		{
-			LoadTestDataForUser();
+		{ 
 
-			
             // Для реальных данных - раскомментируйте позже
             LoadUserSchedule(2); // 1 - ID пользователя-преподавателя
             
@@ -33,122 +31,52 @@ namespace volpt.MVVM.ViewModel
 				.Include(u => u.Role)
 				.FirstOrDefault(u => u.Id == userId);
 
-			// Загружаем расписание преподавателя
-			var lessons = db.Lessons
-				.Include(l => l.Subject)
-				.Include(l => l.Group)
-				.Include(l => l.User)  // Связь с пользователем
-				.Where(l => l.UserId == userId)  // Фильтруем по пользователю-преподавателю
-				.OrderBy(l => l.Date)
-				.ThenBy(l => l.Number)
-				.ToList();
+            // Загружаем расписание преподавателя
+            var startOfWeek = GetStartOfWeek(DateTime.Today);
 
-			Schedule = lessons
-				.GroupBy(l => l.Date)
-				.Select(g => new DaySchedule
-				{
-					DayName = GetDayOfWeekName(g.Key),
-					Date = g.Key.ToString("dd.MM"),
-					Lessons = g.Select(l => new LessonItem
-					{
-						Number = l.Number.ToString(),
-						Subject = l.Subject?.Name ?? "Не указано",
-						Time = GetTimeByNumber(l.Number),
-						Group = l.Group?.Name ?? "Не указано",
-						Room = l.Classroom ?? "Не указано"
-					}).ToList()
-				})
-				.ToList();
-		}
+            // Загружаем расписание преподавателя на текущую неделю
+            var weekDates = Enumerable.Range(0, 6)
+                .Select(i => DateOnly.FromDateTime(startOfWeek.AddDays(i)))
+                .ToList();
 
-		private void LoadTestDataForUser()
-		{
-			CurrentUser = new User
-			{
-				Id = 1,
-				Login = "i.ivanov",
-				FullName = "Иванов Иван Иванович",
-				RoleId = 2 // ID роли преподавателя
-			};
+            var lessons = db.Lessons
+                .Include(l => l.Subject)
+                .Include(l => l.Group)
+                .Include(l => l.User)
+                .Where(l => l.UserId == userId &&
+                           weekDates.Contains(l.Date))
+                .OrderBy(l => l.Date)
+                .ThenBy(l => l.Number)
+                .ToList();
 
-			Schedule = new List<DaySchedule>
-			{
-				new DaySchedule
-				{
-					DayName = "Понедельник",
-					Date = "02.12",
-					Lessons = new List<LessonItem>
-					{
-						new LessonItem
-						{
-							Number = "1",
-							Subject = "МДК 02.02",
-							Time = GetTimeByNumber(1),
-							Group = "ИСП-8",
-							Room = "105 ауд."
-						},
-						new LessonItem
-						{
-							Number = "2",
-							Subject = "МДК 02.02",
-							Time = GetTimeByNumber(2),
-							Group = "ИСП-9",
-							Room = "203 ауд."
-						},
-						new LessonItem
-						{
-							Number = "3",
-							Subject = "Программирование",
-							Time = GetTimeByNumber(3),
-							Group = "ИСП-8",
-							Room = "301 ауд."
-						}
-					}
-				},
-				new DaySchedule
-				{
-					DayName = "Вторник",
-					Date = "03.12",
-					Lessons = new List<LessonItem>
-					{
-						new LessonItem
-						{
-							Number = "1",
-							Subject = "Базы данных",
-							Time = GetTimeByNumber(1),
-							Group = "ИСП-9",
-							Room = "401 ауд."
-						},
-						new LessonItem
-						{
-							Number = "4",
-							Subject = "МДК 02.02",
-							Time = GetTimeByNumber(4),
-							Group = "ИСП-8",
-							Room = "105 ауд."
-						}
-					}
-				},
-				new DaySchedule
-				{
-					DayName = "Среда",
-					Date = "04.12",
-					Lessons = new List<LessonItem>
-					{
-						new LessonItem
-						{
-							Number = "2",
-							Subject = "Программирование",
-							Time = GetTimeByNumber(2),
-							Group = "ИСП-9",
-							Room = "301 ауд."
-						}
-					}
-				}
-			};
-		}
+            // Создаем расписание на всю неделю
+            Schedule = weekDates.Select(date => new DaySchedule
+            {
+                DayName = GetDayOfWeekName(date),
+                Date = date.ToString("dd.MM"),
+                Lessons = lessons
+                    .Where(l => l.Date == date)
+                    .OrderBy(l => l.Number)
+                    .Select(l => new LessonItem
+                    {
+                        Number = l.Number.ToString(),
+                        Subject = l.Subject?.Name ?? "Не указано",
+                        Time = GetTimeByNumber(l.Number),
+                        Group = l.Group?.Name ?? "Не указано",
+                        Room = l.Classroom ?? "Не указано"
+                    })
+                    .ToList()
+            }).ToList();
+        }
+        private DateTime GetStartOfWeek(DateTime date)
+        {
+            // Находим понедельник текущей недели
+            int diff = (7 + (date.DayOfWeek - DayOfWeek.Monday)) % 7;
+            return date.AddDays(-1 * diff).Date;
+        }
 
-		private string GetTimeByNumber(int number)
+
+        private string GetTimeByNumber(int number)
 		{
 			// пример, подставь своё
 			return number switch
