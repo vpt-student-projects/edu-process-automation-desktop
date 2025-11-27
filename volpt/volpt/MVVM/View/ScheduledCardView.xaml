@@ -8,7 +8,7 @@
              d:DesignHeight="320" d:DesignWidth="298.67"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
-    <Border CornerRadius="16" Background="#FFF9FAFB">
+    <Border CornerRadius="16" Background="{StaticResource BackgroundLightBrush}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="26" />

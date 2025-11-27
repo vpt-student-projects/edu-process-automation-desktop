@@ -10,6 +10,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Theme/Color.xaml"/>
                 <ResourceDictionary Source="/Theme/TextStyles.xaml"/>
+                <ResourceDictionary Source="/Theme/MainButtontTheme.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
         <core:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>
         <core:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter"/>

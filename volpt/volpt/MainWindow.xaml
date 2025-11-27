@@ -4,20 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:local="clr-namespace:volpt" xmlns:view="clr-namespace:volpt.MVVM.View" 
-        xmlns:controls="clr-namespace:volpt.Core" mc:Ignorable="d" Title="MainWindow" 
+        xmlns:controls="clr-namespace:volpt.Core" mc:Ignorable="d" Title="ВПТ: Образование" 
         Height="768" Width="1024" MinHeight="768" MinWidth="1024"
         Background="Transparent">
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <!-- Подключаем наш словарь со стилями -->
-                <ResourceDictionary Source="/Theme/MainButtontTheme.xaml"/>
-                <ResourceDictionary Source="/Theme/Color.xaml"/>
-                <ResourceDictionary Source="/Theme/TextStyles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
-    <Border Background="#FFE7E7EB">
+    <Border Background="{StaticResource Light2Brush}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="58"/>
@@ -62,21 +52,48 @@
             <Grid Grid.Row="1" Margin="32,2">
                 <TextBlock Text="Расписание" Style="{StaticResource H2}" HorizontalAlignment="Left"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button BorderBrush="{x:Null}" Background="{x:Null}">
-                        <Image Width="12" Height="19" Source="/Images/chevron.left.png"/>
+                    <Button BorderBrush="{x:Null}"  Background="{x:Null}" >
+                        <Button.Template>
+                            <ControlTemplate  TargetType="Button">
+                                <Border x:Name="Border" CornerRadius="8" Padding="4">
+                                    <Image Width="12" Height="19" Source="/Images/chevron.left.png"/>
+                                </Border>
+
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="{StaticResource SecondaryBrush}"/>
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
                     </Button>
-                    <TextBlock Text="00.00-00.00" Style="{StaticResource H4}" />
-                    <Button BorderBrush="{x:Null}" Background="{x:Null}">
-                        <Image Width="12" Height="19" Source="/Images/chevron.left.png" RenderTransformOrigin="0.5,0.5">
-                            <Image.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform ScaleX="-1"/>
-                                    <SkewTransform/>
-                                    <RotateTransform/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </Image.RenderTransform>
-                        </Image>
+                    <TextBlock Text="00.00-00.00" Style="{StaticResource H4}" Margin="4"/>
+                    <Button BorderBrush="{x:Null}" Background="{x:Null}"  >
+                        <Button.Template>
+                            <ControlTemplate  TargetType="Button">
+                                <Border x:Name="Border" CornerRadius="8" Padding="4">
+                                    <Image Width="12" Height="19" Source="/Images/chevron.left.png" RenderTransformOrigin="0.5,0.5">
+                                        <Image.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform ScaleX="-1"/>
+                                                <SkewTransform/>
+                                                <RotateTransform/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </Image.RenderTransform>
+                                    </Image>
+                                </Border>
+
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="{StaticResource SecondaryBrush}"/>
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                        
                     </Button>
                 </StackPanel>
             </Grid>
