@@ -39,7 +39,6 @@
                                     </Border>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ActiveBtnBrush}"/>
                                             <Setter Property="Cursor" Value="Hand"/>
                                         </Trigger>
                                     </ControlTemplate.Triggers>
