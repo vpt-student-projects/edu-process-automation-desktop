@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,21 +12,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using volpt.MVVM.View;
 using volpt.MVVM.ViewModel;
 
-namespace volpt
+namespace volpt.MVVM.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Логика взаимодействия для SchedulePage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class SchedulePage : Page
     {
-        public MainWindow()
+        public SchedulePage()
         {
             InitializeComponent();
-			
-            MainFrame.Navigate(new SchedulePage());
+            ///DataContext = new MainWindowViewModel();
         }
-	}
+    }
 }
