@@ -6,7 +6,10 @@
       xmlns:view="clr-namespace:volpt.MVVM.View"
       xmlns:controls="clr-namespace:volpt.Core"
       mc:Ignorable="d"
-      Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+      SnapsToDevicePixels="True"
+      UseLayoutRounding="True"
+      Background="Transparent" 
+      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
     <Grid >
         <Grid.RowDefinitions>
@@ -24,16 +27,16 @@
                         HorizontalAlignment="Right">
 
                 <!-- кнопка назад -->
-                <Button BorderBrush="{x:Null}" Background="{x:Null}">
+                <Button BorderBrush="{x:Null}"  Background="{x:Null}" >
                     <Button.Template>
-                        <ControlTemplate TargetType="Button">
+                        <ControlTemplate  TargetType="Button">
                             <Border x:Name="Border" CornerRadius="8" Padding="4">
                                 <Image Width="12" Height="19" Source="/Images/chevron.left.png"/>
                             </Border>
+
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="Border" Property="Background"
-                                            Value="{StaticResource SecondaryBrush}"/>
+                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource SecondaryBrush}"/>
                                     <Setter Property="Cursor" Value="Hand"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
@@ -45,21 +48,25 @@
                 <TextBlock Text="00.00–00.00" Style="{StaticResource H4}" Margin="4"/>
 
                 <!-- кнопка вперед -->
-                <Button BorderBrush="{x:Null}" Background="{x:Null}">
+                <Button BorderBrush="{x:Null}" Background="{x:Null}"  >
                     <Button.Template>
-                        <ControlTemplate TargetType="Button">
+                        <ControlTemplate  TargetType="Button">
                             <Border x:Name="Border" CornerRadius="8" Padding="4">
-                                <Image Width="12" Height="19" 
-                                       Source="/Images/chevron.left.png" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Width="12" Height="19" Source="/Images/chevron.left.png" RenderTransformOrigin="0.5,0.5">
                                     <Image.RenderTransform>
-                                        <ScaleTransform ScaleX="-1"/>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="-1"/>
+                                            <SkewTransform/>
+                                            <RotateTransform/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
                                     </Image.RenderTransform>
                                 </Image>
                             </Border>
+
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="Border" Property="Background"
-                                            Value="{StaticResource SecondaryBrush}"/>
+                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource SecondaryBrush}"/>
                                     <Setter Property="Cursor" Value="Hand"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
