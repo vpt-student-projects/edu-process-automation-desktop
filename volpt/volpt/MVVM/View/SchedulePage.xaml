@@ -11,29 +11,50 @@
       Background="Transparent" 
       HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-    <Grid >
+
+
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="34"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- ВЕРХНИЙ БАР ДАТЫ -->
-        <Grid Grid.Row="0" Margin="0,2" >
+        <Grid Grid.Row="0" Margin="0,2">
             <TextBlock Text="Расписание" 
                        Style="{StaticResource H2}" 
                        HorizontalAlignment="Left" />
 
-            <StackPanel Orientation="Horizontal" 
-                        HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                <!-- Кнопка "Текущая неделя" -->
+                <Button BorderBrush="{x:Null}" Background="{x:Null}" 
+                        Command="{Binding CurrentWeekCommand}"
+                        ToolTip="Текущая неделя" 
+                       Visibility="{Binding IsCurrentWeek, Converter={StaticResource InverseCountToVisibilityConverter}}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Border" CornerRadius="8" Padding="8,4">
+                                <TextBlock Text="Сегодня" Style="{StaticResource H5}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource SecondaryBrush}"/>
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
 
                 <!-- кнопка назад -->
-                <Button BorderBrush="{x:Null}"  Background="{x:Null}" >
+                <Button BorderBrush="{x:Null}" Background="{x:Null}" 
+                        Command="{Binding PreviousWeekCommand}">
                     <Button.Template>
-                        <ControlTemplate  TargetType="Button">
+                        <ControlTemplate TargetType="Button">
                             <Border x:Name="Border" CornerRadius="8" Padding="4">
                                 <Image Width="12" Height="19" Source="/Images/chevron.left.png"/>
                             </Border>
-
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter TargetName="Border" Property="Background" Value="{StaticResource SecondaryBrush}"/>
@@ -45,12 +66,13 @@
                 </Button>
 
                 <!-- дата -->
-                <TextBlock Text="00.00–00.00" Style="{StaticResource H4}" Margin="4"/>
+                <TextBlock Text="{Binding WeekDisplay}" Style="{StaticResource H4}" Margin="4"/>
 
                 <!-- кнопка вперед -->
-                <Button BorderBrush="{x:Null}" Background="{x:Null}"  >
+                <Button BorderBrush="{x:Null}" Background="{x:Null}" 
+                        Command="{Binding NextWeekCommand}">
                     <Button.Template>
-                        <ControlTemplate  TargetType="Button">
+                        <ControlTemplate TargetType="Button">
                             <Border x:Name="Border" CornerRadius="8" Padding="4">
                                 <Image Width="12" Height="19" Source="/Images/chevron.left.png" RenderTransformOrigin="0.5,0.5">
                                     <Image.RenderTransform>
@@ -63,7 +85,6 @@
                                     </Image.RenderTransform>
                                 </Image>
                             </Border>
-
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter TargetName="Border" Property="Background" Value="{StaticResource SecondaryBrush}"/>
@@ -79,18 +100,15 @@
         <!-- РАСПИСАНИЕ -->
         <ItemsControl Grid.Row="1"
                       ItemsSource="{Binding Schedule}">
-
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <controls:AdaptiveUniformGrid 
                         Columns="3"
                         Rows="3"
                         RowSpacing="16"
-                        ColumnSpacing="16"
-                        Margin="32,8,32,8"/>
+                        ColumnSpacing="16"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <view:ScheduledCardView Day="{Binding}"/>

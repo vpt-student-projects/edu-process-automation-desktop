@@ -14,17 +14,25 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using volpt.MVVM.ViewModel;
 
+
 namespace volpt.MVVM.View
 {
-    /// <summary>
-    /// Логика взаимодействия для SchedulePage.xaml
-    /// </summary>
     public partial class SchedulePage : Page
     {
-        public SchedulePage()
-        {
-            InitializeComponent();
-            ///DataContext = new MainWindowViewModel();
-        }
-    }
+		public SchedulePage()
+		{
+			InitializeComponent();
+
+			// Устанавливаем DataContext из статического свойства App
+			if (App.MainWindowViewModel?.ScheduleVM != null)
+			{
+				this.DataContext = App.MainWindowViewModel.ScheduleVM;
+			}
+			else
+			{
+				// Запасной вариант
+				this.DataContext = new ScheduleViewModel(2);
+			}
+		}
+	}
 }

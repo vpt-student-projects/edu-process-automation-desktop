@@ -8,13 +8,14 @@
              d:DesignHeight="320" d:DesignWidth="298.67"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
-    <Border CornerRadius="16" Background="{StaticResource BackgroundLightBrush}">
+    <Border CornerRadius="16" Background="{StaticResource BackgroundLightBrush}"
+             Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=UserControl}}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="26" />
+                <RowDefinition Height="auto" />
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Border Background="#FF567DB8" CornerRadius="10,10,0,0">
+            <Border Background="{StaticResource PrimaryColorBrush}" CornerRadius="10,10,0,0">
                 <Grid x:Name="header" Grid.Row="0">
                     <TextBlock x:Name="day" Style="{StaticResource H4}"
                                Foreground="{StaticResource TextBrush}" FontSize="18" 

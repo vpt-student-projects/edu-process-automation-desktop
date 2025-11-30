@@ -56,8 +56,10 @@ namespace volpt.Core
 			double totalColumnSpacing = (cols - 1) * ColumnSpacing;
 			double totalRowSpacing = (rows - 1) * RowSpacing;
 
-			double cellWidth = Math.Max((finalSize.Width - totalColumnSpacing) / cols, 300); // минимум под твою карточку
-			double cellHeight = (finalSize.Height - totalRowSpacing) / rows;
+			double cellWidth = Math.Max((finalSize.Width - totalColumnSpacing) / cols, 300);
+
+			// Рассчитываем высоту на основе максимального количества пар
+			double cellHeight = CalculateAdaptiveCardHeight(finalSize.Height, totalRowSpacing, rows);
 
 			int index = 0;
 			for (int r = 0; r < rows; r++)
@@ -73,12 +75,28 @@ namespace volpt.Core
 					double x = c * (cellWidth + ColumnSpacing);
 					double y = r * (cellHeight + RowSpacing);
 
-					// Мы не обрезаем, а равномерно распределяем
 					child.Arrange(new Rect(x, y, cellWidth, cellHeight));
 				}
 			}
 
 			return finalSize;
+		}
+
+		private double CalculateAdaptiveCardHeight(double totalHeight, double totalRowSpacing, int rows)
+		{
+			if (rows == 0) return 0;
+
+			// Базовая высота на строку
+			double baseHeightPerRow = (totalHeight - totalRowSpacing) / rows;
+
+			// Минимальная высота карточки
+			double minCardHeight = 200;
+
+			// Максимальная высота карточки (чтобы не выходила за пределы)
+			double maxCardHeight = totalHeight - totalRowSpacing;
+
+			// Возвращаем высоту, но не меньше минимальной
+			return Math.Max(baseHeightPerRow, minCardHeight);
 		}
 	}
 }
