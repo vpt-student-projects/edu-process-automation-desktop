@@ -46,33 +46,33 @@ namespace volpt.AuthService
         }
 
         // 2. АВТОМАТИЧЕСКИЙ ВХОД (при запуске приложения)
-        public async Task<User> AutoLoginAsync()
-        {
-            // Загружаем токен из локального хранилища
-            var savedToken = await LoadTokenFromStorageAsync();
-            if (string.IsNullOrEmpty(savedToken))
-                return null;
+        //public async Task<User> AutoLoginAsync()
+        //{
+        //    // Загружаем токен из локального хранилища
+        //    var savedToken = await LoadTokenFromStorageAsync();
+        //    if (string.IsNullOrEmpty(savedToken))
+        //        return null;
 
-            // Находим пользователя по токену
-            var tokenHash = HashToken(savedToken);
-            var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.RefreshTokenHash == tokenHash);
+        //    // Находим пользователя по токену
+        //    var tokenHash = HashToken(savedToken);
+        //    var user = await _context.Users
+        //        .FirstOrDefaultAsync(u => u.RefreshTokenHash == tokenHash);
 
-            if (user == null || !user.IsTokenValid)
-            {
-                await ClearTokenFromStorageAsync();
-                return null;
-            }
+        //    if (user == null || !user.IsTokenValid)
+        //    {
+        //        await ClearTokenFromStorageAsync();
+        //        return null;
+        //    }
 
-            // Обновляем время истечения токена (продлеваем сессию)
-            user.TokenExpiresAt = DateTime.UtcNow.AddDays(7);
-            await _context.SaveChangesAsync();
+        //    // Обновляем время истечения токена (продлеваем сессию)
+        //    user.TokenExpiresAt = DateTime.UtcNow.AddDays(7);
+        //    await _context.SaveChangesAsync();
 
-            // Сохраняем обновленный токен
-            await SaveTokenToStorageAsync(savedToken);
+        //    // Сохраняем обновленный токен
+        //    await SaveTokenToStorageAsync(savedToken);
 
-            return user;
-        }
+        //    return user;
+        //}
 
         // 3. ВЫХОД
         public async Task LogoutAsync(int userId)
@@ -129,37 +129,37 @@ namespace volpt.AuthService
             );
 
             // Сохраняем в настройки приложения
-            Properties.Settings.Default.AuthToken = Convert.ToBase64String(encrypted);
-            Properties.Settings.Default.Save();
+            //Properties.Settings.Default.AuthToken = Convert.ToBase64String(encrypted);
+            //Properties.Settings.Default.Save();
         }
 
-        private async Task<string> LoadTokenFromStorageAsync()
-        {
-            try
-            {
-                var encrypted = Properties.Settings.Default.AuthToken;
-                if (string.IsNullOrEmpty(encrypted))
-                    return null;
+        //private async Task<string> LoadTokenFromStorageAsync()
+        //{
+        //    try
+        //    {
+        //        var encrypted = Properties.Settings.Default.AuthToken;
+        //        if (string.IsNullOrEmpty(encrypted))
+        //            return null;
 
-                var bytes = Convert.FromBase64String(encrypted);
-                var decrypted = ProtectedData.Unprotect(
-                    bytes,
-                    null,
-                    DataProtectionScope.CurrentUser
-                );
+        //        var bytes = Convert.FromBase64String(encrypted);
+        //        var decrypted = ProtectedData.Unprotect(
+        //            bytes,
+        //            null,
+        //            DataProtectionScope.CurrentUser
+        //        );
 
-                return Encoding.UTF8.GetString(decrypted);
-            }
-            catch
-            {
-                return null;
-            }
-        }
+        //        return Encoding.UTF8.GetString(decrypted);
+        //    }
+        //    catch
+        //    {
+        //        return null;
+        //    }
+        //}
 
         private async Task ClearTokenFromStorageAsync()
         {
-            Properties.Settings.Default.AuthToken = null;
-            Properties.Settings.Default.Save();
+            //Properties.Settings.Default.AuthToken = null;
+            //Properties.Settings.Default.Save();
         }
 
         private void ClearUserTokens(User user)
