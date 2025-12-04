@@ -5,8 +5,177 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:volpt.MVVM.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             d:DesignHeight="450" d:DesignWidth="800"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True">
+    <Border>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Заголовок группы (всегда видим) -->
+            <Border x:Name="Border" Background="{StaticResource BackgroundLightBrush}"
+                    BorderBrush="{StaticResource AccentLightBrush}"
+                    BorderThickness="1"
+                    CornerRadius="16">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Иконка стрелки -->
+                    <Button Grid.Column="0"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            Width="48"
+                            Command="{Binding ToggleExpandCommand}">
+                        <Path Data="M 0,0 L 8,8 L 16,0"
+                              Stroke="{StaticResource PrimaryColorBrush}"
+                              StrokeThickness="2"
+                              Stretch="Uniform"
+                              Margin="12">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="{Binding IsExpanded, Converter={StaticResource BoolToAngleConverter}}"/>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Button>
+
+                    <!-- Название группы -->
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding Name}" 
+                               Style="{StaticResource H4}"
+                               Foreground="{StaticResource PrimaryColorBrush}"
+                               VerticalAlignment="Center"
+                               Margin="0,0,16,0"/>
+
+                    <!-- Статистика группы -->
+                    <StackPanel Grid.Column="2"
+                                Orientation="Horizontal" 
+                                VerticalAlignment="Center"
+                                Margin="0,0,16,0">
+                        <TextBlock Text="{Binding StudentCount, StringFormat='👥 {0}'}"
+                                   Style="{StaticResource H6}"
+                                   Foreground="{StaticResource PrimaryColorBrush}"
+                                   Margin="8,0"
+                                   ToolTip="Количество студентов"/>
+                        <TextBlock Text="{Binding LessonCount, StringFormat='📚 {0}'}"
+                                   Style="{StaticResource H6}"
+                                   Foreground="{StaticResource PrimaryColorBrush}"
+                                   ToolTip="Количество занятий"/>
+                        <TextBlock Text="{Binding Subjects.Count, StringFormat='📖 {0}'}"
+                                   Style="{StaticResource H6}"
+                                   Foreground="{StaticResource PrimaryColorBrush}"
+                                   Margin="8,0"
+                                   ToolTip="Количество предметов"/>
+                    </StackPanel>
+
+                    <!-- Кнопки быстрого доступа -->
+                    <StackPanel Grid.Column="3"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                Margin="0,0,16,0">
+                        <Button Content="📅"
+                                Style="{StaticResource MainButtonStyle}"
+                                Command="{Binding ViewScheduleCommand}"
+                                CommandParameter="{Binding Id}"
+                                ToolTip="Расписание"/>
+                        <Button Content="👨‍🎓"
+                                Style="{StaticResource  MainButtonStyle}"
+                                Command="{Binding ViewStudentsCommand}"
+                                CommandParameter="{Binding Id}"
+                                ToolTip="Студенты"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Контент (список предметов) - виден только при развернутом состоянии -->
+            <Border Grid.Row="1"
+                    Background="{StaticResource BackgroundLightBrush}"
+                    CornerRadius="16"
+                    Margin="8,0,8,8"
+                    Visibility="{Binding IsExpanded, Converter={StaticResource BoolToVis}}">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Подзаголовок -->
+                    <Border Padding="16,8">
+                        <TextBlock Text="Предметы группы"
+                                   Style="{StaticResource H5}"
+                                   Foreground="{StaticResource PrimaryColorBrush}"
+                                   VerticalAlignment="Center"/>
+                    </Border>
+
+                    <!-- Список предметов -->
+                    <ItemsControl Grid.Row="1"
+                                  ItemsSource="{Binding Subjects}"
+                                  Margin="0">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal"
+                                           Margin="8"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="4" 
+                                        Padding="12,8"
+                                        CornerRadius="8"
+                                        Background="{StaticResource BackgroundLightBrush}"
+                                        Width="180"
+                                        Height="80">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <!-- Код предмета -->
+                                        <TextBlock Grid.Row="0"
+                                                   Text="{Binding Code}" 
+                                                   Style="{StaticResource H6}"
+                                                   Foreground="{StaticResource PrimaryColorBrush}"
+                                                   TextWrapping="Wrap"
+                                                   Visibility="{Binding IsMdk, Converter={StaticResource BoolToVis}}"/>
+
+                                        <!-- Название предмета -->
+                                        <TextBlock Grid.Row="1"
+                                                   Text="{Binding Title}" 
+                                                   Style="{StaticResource H5}"
+                                                   TextWrapping="Wrap"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,4,0,4"/>
+
+                                        <!-- Часы -->
+                                        <StackPanel Grid.Row="2"
+                                                    Orientation="Horizontal"
+                                                    HorizontalAlignment="Right">
+                                            <TextBlock Text="{Binding TotalHours}" 
+                                                       Style="{StaticResource H6}"
+                                                       Foreground="{StaticResource SecondaryBrush}"/>
+                                            <TextBlock Text=" ч" 
+                                                       Style="{StaticResource H6}"
+                                                       Foreground="{StaticResource SecondaryBrush}"
+                                                       Margin="2,0,0,0"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </Border>
+
+        </Grid>
+    </Border>
 </UserControl>
