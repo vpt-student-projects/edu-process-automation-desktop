@@ -97,7 +97,7 @@
             <Border Grid.Row="1"
                     Background="{StaticResource BackgroundLightBrush}"
                     CornerRadius="16"
-                    Margin="8,0,8,8"
+                    Margin="0,4,0,8"
                     Visibility="{Binding IsExpanded, Converter={StaticResource BoolToVis}}">
 
                 <Grid>
