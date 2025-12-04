@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace volpt;
 
@@ -14,8 +15,16 @@ public partial class User
     public string FullName { get; set; } = null!;
 
     public int RoleId { get; set; }
+    public string RefreshTokenHash { get; set; }
+    public DateTime? TokenExpiresAt { get; set; }
 
     public virtual ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
 
     public virtual Role Role { get; set; } = null!;
+
+    [NotMapped]
+    public bool IsTokenValid =>
+            !string.IsNullOrEmpty(RefreshTokenHash) &&
+            TokenExpiresAt.HasValue &&
+            TokenExpiresAt > DateTime.UtcNow;
 }
