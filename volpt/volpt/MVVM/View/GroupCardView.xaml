@@ -17,6 +17,7 @@
 
             <!-- Заголовок группы (всегда видим) -->
             <Border x:Name="Border" Background="{StaticResource BackgroundLightBrush}"
+                    Margin="0,4"
                     BorderBrush="{StaticResource AccentLightBrush}"
                     BorderThickness="1"
                     CornerRadius="16">
@@ -97,7 +98,7 @@
             <Border Grid.Row="1"
                     Background="{StaticResource BackgroundLightBrush}"
                     CornerRadius="16"
-                    Margin="0,4,0,8"
+                    Margin="0,0,0,4"
                     Visibility="{Binding IsExpanded, Converter={StaticResource BoolToVis}}">
 
                 <Grid>
