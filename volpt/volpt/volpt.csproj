@@ -35,7 +35,6 @@
     <None Remove="Images\впт_логотип 1.jpg" />
     <None Remove="Images\впт_логотипsmall.png" />
     <None Remove="logout.jpg" />
-    <None Remove="MVVM\View\blurry-gradient-haikei %282%29.png" />
     <None Remove="MVVM\View\впт_логотип 1.png" />
   </ItemGroup>
 
@@ -129,7 +128,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\blurry-gradient-haikei %282%29.png" />
-    <Resource Include="MVVM\View\blurry-gradient-haikei (2).png" />
     <Resource Include="MVVM\View\впт_логотип 1.png" />
   </ItemGroup>
 
