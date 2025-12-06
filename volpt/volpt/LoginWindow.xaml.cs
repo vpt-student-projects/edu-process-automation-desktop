@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using volpt.AuthService;
 
 namespace volpt.MVVM.View
 {
@@ -19,9 +21,21 @@ namespace volpt.MVVM.View
     /// </summary>
     public partial class LoginWindow : Window
     {
+        private readonly AccountService accountService;
         public LoginWindow()
         {
             InitializeComponent();
+            var context = new VolpteducationDbContext();
+            accountService = new AccountService(context);
+            accountService.AutoLoginAsync();
+        }
+
+        private async void Click_LoginButton(object sender, RoutedEventArgs e)
+        {
+            var user = await accountService.LoginAsync(LoginTextBox.Text, PasswordBox.Password);
+            var mainWindow = new MainWindow(user.Id);
+            mainWindow.Show();
+            Close();
         }
     }
 }

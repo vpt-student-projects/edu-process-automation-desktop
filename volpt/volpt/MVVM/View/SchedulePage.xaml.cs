@@ -19,20 +19,10 @@ namespace volpt.MVVM.View
 {
     public partial class SchedulePage : Page
     {
-		public SchedulePage()
+		public SchedulePage(int userId)
 		{
 			InitializeComponent();
-
-			// Устанавливаем DataContext из статического свойства App
-			if (App.MainWindowViewModel?.ScheduleVM != null)
-			{
-				this.DataContext = App.MainWindowViewModel.ScheduleVM;
-			}
-			else
-			{
-				// Запасной вариант
-				this.DataContext = new ScheduleViewModel(2);
-			}
+			DataContext = new ScheduleViewModel(userId);
 		}
 	}
 }

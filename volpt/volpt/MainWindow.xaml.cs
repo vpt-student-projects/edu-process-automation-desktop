@@ -18,11 +18,10 @@ namespace volpt
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(int userId)
         {
             InitializeComponent();
-			
-            MainFrame.Navigate(new SchedulePage());
+            MainFrame.Navigate(new SchedulePage(userId));
         }
 	}
 }
