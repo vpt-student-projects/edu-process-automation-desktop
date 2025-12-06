@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:volpt"
              xmlns:vm="clr-namespace:volpt.MVVM.ViewModel"
-             StartupUri="MainWindow.xaml"
+             StartupUri="LoginWindow.xaml"
              xmlns:core="clr-namespace:volpt.Core">
     <Application.Resources>
 
