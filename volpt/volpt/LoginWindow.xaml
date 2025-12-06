@@ -8,7 +8,7 @@
         Title="LoginWindow" Height="768" Width="1024">
     <Grid >
         <Grid.Background>
-            <ImageBrush ImageSource="/MVVM/View/blurry-gradient-haikei (2).png"/>
+            <ImageBrush ImageSource="/Images/blurry-gradient-haikei (2).png"/>
         </Grid.Background>
 
         <StackPanel Orientation="Horizontal" Margin="0,32"
