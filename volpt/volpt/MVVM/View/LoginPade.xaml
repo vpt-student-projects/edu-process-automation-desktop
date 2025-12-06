@@ -8,9 +8,12 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="LoginPade">
 
-    <Grid>
-        <TextBox x:Name="LoginTextBox" HorizontalAlignment="Left" Margin="346,136,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+    <Border >
+        <Border.Background>
+            <ImageBrush ImageSource="/MVVM/View/blurry-gradient-haikei (2).png" Stretch="Uniform"/>
+        </Border.Background>
+        <!--<TextBox x:Name="LoginTextBox" HorizontalAlignment="Left" Margin="346,136,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
         <PasswordBox  x:Name="PasswordBox" Margin="346,136,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="LoginButton" Content="Login" Click="Click_LoginButton" HorizontalAlignment="Right"/>
-    </Grid>
+        <Button x:Name="LoginButton" Content="Login" Click="Click_LoginButton" HorizontalAlignment="Right"/>-->
+    </Border>
 </Page>
