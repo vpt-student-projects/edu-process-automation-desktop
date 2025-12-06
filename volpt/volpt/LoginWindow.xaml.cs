@@ -27,15 +27,31 @@ namespace volpt.MVVM.View
             InitializeComponent();
             var context = new VolpteducationDbContext();
             accountService = new AccountService(context);
-            accountService.AutoLoginAsync();
+            AutoLogin();
         }
-
+        private async void AutoLogin()
+        {
+            var user = await accountService.AutoLoginAsync();
+            if (user != null)
+            {
+                var mainWindow = new MainWindow(user.Id);
+                mainWindow.Show();
+                Close();
+            }
+        }
         private async void Click_LoginButton(object sender, RoutedEventArgs e)
         {
             var user = await accountService.LoginAsync(LoginTextBox.Text, PasswordBox.Password);
+            if (user != null)
+            {
             var mainWindow = new MainWindow(user.Id);
             mainWindow.Show();
             Close();
+            }
+            else
+            {
+                MessageBox.Show("неверный логин или пароль");
+            }
         }
     }
 }

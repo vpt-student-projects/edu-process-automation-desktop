@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using volpt.AuthService;
 using volpt.MVVM.View;
 using volpt.MVVM.ViewModel;
 
@@ -18,10 +19,23 @@ namespace volpt
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly AccountService accountService;
+        private int _userId;
         public MainWindow(int userId)
         {
             InitializeComponent();
-            MainFrame.Navigate(new SchedulePage(userId));
+            _userId = userId;
+            MainFrame.Navigate(new SchedulePage(_userId));
+            var context = new VolpteducationDbContext();
+            accountService = new AccountService(context);
         }
-	}
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            accountService.LogoutAsync(_userId);
+            var loginWindow = new LoginWindow();
+            loginWindow.Show();
+            Close();
+        }
+    }
 }
