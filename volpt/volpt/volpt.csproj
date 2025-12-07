@@ -33,6 +33,7 @@
     <None Remove="Images\person.jpg" />
     <None Remove="Images\person.png" />
     <None Remove="Images\впт_логотип 1.jpg" />
+    <None Remove="Images\впт_логотип 1.png" />
     <None Remove="Images\впт_логотипsmall.png" />
     <None Remove="logout.jpg" />
     <None Remove="MVVM\View\впт_логотип 1.png" />
@@ -124,11 +125,11 @@
     <Resource Include="Images\впт_логотип 1.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\впт_логотип 1.png" />
     <Resource Include="Images\впт_логотипsmall.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\blurry-gradient-haikei %282%29.png" />
-    <Resource Include="MVVM\View\впт_логотип 1.png" />
   </ItemGroup>
 
   <ItemGroup>

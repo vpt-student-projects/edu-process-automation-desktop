@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:volpt.MVVM.View"
         mc:Ignorable="d"
         Title="LoginWindow" Height="768" Width="1024">
+    
     <Grid >
         <Grid.Background>
             <ImageBrush ImageSource="/Images/blurry-gradient-haikei (2).png"/>
@@ -13,7 +14,7 @@
 
         <StackPanel Orientation="Horizontal" Margin="0,32"
                     HorizontalAlignment="Center" VerticalAlignment="Top">
-            <Image Source="/MVVM/View/впт_логотип 1.png"
+            <Image Source="/Images/впт_логотип 1.png"
                 Height="46" Width="104"/>
             <TextBlock Text="ВПТ:Образование" Style="{StaticResource H1}"/>
         </StackPanel>
@@ -39,6 +40,7 @@
                 <StackPanel Grid.Row="1" VerticalAlignment="Top" Margin="8">
                     <TextBlock Text="Логин" Style="{StaticResource H6}" Margin="0,0,0,8"/>
                     <TextBox x:Name="LoginTextBox" 
+                             Style="{StaticResource FormTextBoxStyle}"
                              Height="32"
                              Margin="0,0,0,16"/>
 
