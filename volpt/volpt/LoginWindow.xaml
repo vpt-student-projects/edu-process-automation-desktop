@@ -5,24 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:volpt.MVVM.View"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="768" Width="1024">
+        Title="LoginWindow" Height="768" Width="1024"
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True">
     
     <Grid >
         <Grid.Background>
             <ImageBrush ImageSource="/Images/blurry-gradient-haikei (2).png"/>
         </Grid.Background>
-
-        <StackPanel Orientation="Horizontal" Margin="0,32"
+        <StackPanel Orientation="Vertical">
+            
+        <StackPanel Orientation="Horizontal" Margin="0,32,0,48"
                     HorizontalAlignment="Center" VerticalAlignment="Top">
             <Image Source="/Images/впт_логотип 1.png"
-                Height="46" Width="104"/>
-            <TextBlock Text="ВПТ:Образование" Style="{StaticResource H1}"/>
-        </StackPanel>
+                Height="46" Width="104" Margin="-8"/>
+                <TextBlock Text="ВПТ:Образование" Style="{StaticResource H1}" FontSize="32">
+                    <TextBlock.Effect>
+                        <DropShadowEffect ShadowDepth="1" 
+                          Direction="1" 
+                          Color="#1D3963" 
+                          Opacity="0.7" 
+                          BlurRadius="16"/>
+                    </TextBlock.Effect>
+                </TextBlock>
+            </StackPanel>
         <Border Background="{StaticResource BackgroundLightBrush}"
                 Width="391" Height="423"
-                CornerRadius="18" Padding="8"
-                VerticalAlignment="Center" HorizontalAlignment="Center">
-
+                CornerRadius="18" Padding="8" VerticalAlignment="Top">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -38,16 +47,19 @@
 
                 <!-- Поля ввода -->
                 <StackPanel Grid.Row="1" VerticalAlignment="Top" Margin="8">
-                    <TextBlock Text="Логин" Style="{StaticResource H6}" Margin="0,0,0,8"/>
+                    <TextBlock Text="Логин" Style="{StaticResource H6}" Margin="0,0,0,4"/>
                     <TextBox x:Name="LoginTextBox" 
                              Style="{StaticResource FormTextBoxStyle}"
                              Height="32"
-                             Margin="0,0,0,16"/>
+                             Margin="0,0,0,16"
+                             Padding="2"/>
 
-                    <TextBlock Text="Пароль" Style="{StaticResource H6}" Margin="0,0,0,8"/>
+                    <TextBlock Text="Пароль" Style="{StaticResource H6}" Margin="0,0,0,4"/>
                     <PasswordBox x:Name="PasswordBox" 
+                                 Style="{StaticResource FormPasswordBoxStyle}"
                                  Height="32"
-                                 Margin="0"/>
+                                 Padding="2"
+                                 BorderThickness="1,1,1,1" />
                 </StackPanel>
 
                 <!-- Кнопка -->
@@ -58,5 +70,6 @@
                         Style="{StaticResource LoginBtnStyle}"/>
             </Grid>
         </Border>
+        </StackPanel>
     </Grid>
 </Window>

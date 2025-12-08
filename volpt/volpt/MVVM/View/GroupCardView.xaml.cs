@@ -1,28 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using volpt.MVVM.Model;
 
 namespace volpt.MVVM.View
 {
-    /// <summary>
-    /// Логика взаимодействия для GroupCardView.xaml
-    /// </summary>
     public partial class GroupCardView : UserControl
     {
         public GroupCardView()
         {
             InitializeComponent();
+        }
+
+        private void ExpandButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is GroupModel group)
+            {
+                group.IsExpanded = !group.IsExpanded;
+            }
+        }
+
+        private void ScheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is GroupModel group)
+            {
+                MessageBox.Show($"Открыть расписание группы: {group.Name} (ID: {group.Id})",
+                    "Расписание", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void StudentsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is GroupModel group)
+            {
+                MessageBox.Show($"Открыть студентов группы: {group.Name} (ID: {group.Id})",
+                    "Студенты", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }

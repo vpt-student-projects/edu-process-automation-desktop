@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:volpt.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
+
     <Border>
         <Grid>
             <Grid.RowDefinitions>
@@ -15,8 +15,8 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- Заголовок группы (всегда видим) -->
-            <Border x:Name="Border" Background="{StaticResource BackgroundLightBrush}"
+            <!-- Заголовок группы -->
+            <Border Background="{StaticResource BackgroundLightBrush}"
                     Margin="0,4"
                     BorderBrush="{StaticResource AccentLightBrush}"
                     BorderThickness="1"
@@ -29,21 +29,28 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Иконка стрелки -->
+                    <!-- Кнопка стрелки -->
                     <Button Grid.Column="0"
                             Background="Transparent"
                             BorderBrush="Transparent"
                             Width="48"
-                            Command="{Binding ToggleExpandCommand}">
-                        <Path Data="M 0,0 L 8,8 L 16,0"
-                              Stroke="{StaticResource PrimaryColorBrush}"
-                              StrokeThickness="2"
-                              Stretch="Uniform"
-                              Margin="12">
-                            <Path.RenderTransform>
-                                <RotateTransform Angle="{Binding IsExpanded, Converter={StaticResource BoolToAngleConverter}}"/>
-                            </Path.RenderTransform>
-                        </Path>
+                            Click="ExpandButton_Click"
+                            ToolTip="Развернуть/Свернуть">
+                        <TextBlock FontSize="20"
+                                   Foreground="{StaticResource PrimaryColorBrush}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="▶"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+                                            <Setter Property="Text" Value="▼"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     </Button>
 
                     <!-- Название группы -->
@@ -54,7 +61,7 @@
                                VerticalAlignment="Center"
                                Margin="0,0,16,0"/>
 
-                    <!-- Статистика группы -->
+                    <!-- Статистика -->
                     <StackPanel Grid.Column="2"
                                 Orientation="Horizontal" 
                                 VerticalAlignment="Center"
@@ -62,44 +69,45 @@
                         <TextBlock Text="{Binding StudentCount, StringFormat='👥 {0}'}"
                                    Style="{StaticResource H6}"
                                    Foreground="{StaticResource PrimaryColorBrush}"
-                                   Margin="8,0"
-                                   ToolTip="Количество студентов"/>
+                                   Margin="8,0"/>
                         <TextBlock Text="{Binding LessonCount, StringFormat='📚 {0}'}"
                                    Style="{StaticResource H6}"
                                    Foreground="{StaticResource PrimaryColorBrush}"
-                                   ToolTip="Количество занятий"/>
-                        <TextBlock Text="{Binding Subjects.Count, StringFormat='📖 {0}'}"
-                                   Style="{StaticResource H6}"
-                                   Foreground="{StaticResource PrimaryColorBrush}"
-                                   Margin="8,0"
-                                   ToolTip="Количество предметов"/>
+                                   Margin="8,0"/>
                     </StackPanel>
 
-                    <!-- Кнопки быстрого доступа -->
+                    <!-- Кнопки действий -->
                     <StackPanel Grid.Column="3"
                                 Orientation="Horizontal"
                                 VerticalAlignment="Center"
                                 Margin="0,0,16,0">
                         <Button Content="📅"
                                 Style="{StaticResource MainButtonStyle}"
-                                Command="{Binding ViewScheduleCommand}"
-                                CommandParameter="{Binding Id}"
+                                Click="ScheduleButton_Click"
                                 ToolTip="Расписание"/>
                         <Button Content="👨‍🎓"
-                                Style="{StaticResource  MainButtonStyle}"
-                                Command="{Binding ViewStudentsCommand}"
-                                CommandParameter="{Binding Id}"
+                                Style="{StaticResource MainButtonStyle}"
+                                Click="StudentsButton_Click"
                                 ToolTip="Студенты"/>
                     </StackPanel>
                 </Grid>
             </Border>
 
-            <!-- Контент (список предметов) - виден только при развернутом состоянии -->
+            <!-- Список предметов -->
             <Border Grid.Row="1"
                     Background="{StaticResource BackgroundLightBrush}"
                     CornerRadius="16"
-                    Margin="0,0,0,4"
-                    Visibility="{Binding IsExpanded, Converter={StaticResource BoolToVis}}">
+                    Margin="0,0,0,4">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
 
                 <Grid>
                     <Grid.RowDefinitions>
@@ -107,7 +115,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Подзаголовок -->
+                    <!-- Заголовок -->
                     <Border Padding="16,8">
                         <TextBlock Text="Предметы группы"
                                    Style="{StaticResource H5}"
@@ -118,11 +126,10 @@
                     <!-- Список предметов -->
                     <ItemsControl Grid.Row="1"
                                   ItemsSource="{Binding Subjects}"
-                                  Margin="0">
+                                  Margin="8">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Horizontal"
-                                           Margin="8"/>
+                                <WrapPanel Orientation="Horizontal"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
 
@@ -141,15 +148,14 @@
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
 
-                                        <!-- Код предмета -->
+                                        <!-- Код -->
                                         <TextBlock Grid.Row="0"
                                                    Text="{Binding Code}" 
                                                    Style="{StaticResource H6}"
                                                    Foreground="{StaticResource PrimaryColorBrush}"
-                                                   TextWrapping="Wrap"
-                                                   Visibility="{Binding IsMdk, Converter={StaticResource BoolToVis}}"/>
+                                                   TextWrapping="Wrap"/>
 
-                                        <!-- Название предмета -->
+                                        <!-- Название -->
                                         <TextBlock Grid.Row="1"
                                                    Text="{Binding Title}" 
                                                    Style="{StaticResource H5}"
@@ -176,7 +182,6 @@
                     </ItemsControl>
                 </Grid>
             </Border>
-
         </Grid>
     </Border>
 </UserControl>

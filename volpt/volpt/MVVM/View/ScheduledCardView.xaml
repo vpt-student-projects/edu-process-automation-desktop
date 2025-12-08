@@ -34,7 +34,7 @@
                              Visibility="{Binding Lessons.Count, Converter={StaticResource CountToVisibilityConverter}}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <local:LessonsView />
+                            <local:LessonsView/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

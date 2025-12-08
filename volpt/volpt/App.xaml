@@ -22,6 +22,13 @@
             </ResourceDictionary.MergedDictionaries>
             <core:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>
             <core:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter"/>
+            <core:BoolToAngleConverter x:Key="BoolToAngleConverter"/>
+            <core:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <core:LessonSlotToBackgroundConverter x:Key="LessonSlotToBackgroundConverter"/>
+            <core:LessonSlotToBorderBrushConverter x:Key="LessonSlotToBorderBrushConverter"/>
+            <core:LessonSlotToOpacityConverter x:Key="LessonSlotToOpacityConverter"/>
+            
+            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
