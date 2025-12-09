@@ -29,6 +29,7 @@
                                 Style="{StaticResource MainButtonStyle}"
                                 Content="Список групп" 
                                 FontSize="16" 
+                                Click="GroupsButton_Click"
                                 VerticalAlignment="Center" Margin="0,4,16,4"/>
                         <Button x:Name="exit" Width="23" Height="19" Click="LogoutButton_Click" BorderBrush="{x:Null}">
                             <Button.Template>

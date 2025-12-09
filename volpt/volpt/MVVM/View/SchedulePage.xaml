@@ -11,8 +11,6 @@
       Background="Transparent" 
       HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="34"/>
@@ -34,7 +32,7 @@
                        Visibility="{Binding IsCurrentWeek, Converter={StaticResource InverseCountToVisibilityConverter}}">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
-                            <Border x:Name="Border" CornerRadius="8" Padding="8,4">
+                            <Border x:Name="Border" CornerRadius="8" Padding="8,0">
                                 <TextBlock Text="Сегодня" Style="{StaticResource H5}"/>
                             </Border>
                             <ControlTemplate.Triggers>

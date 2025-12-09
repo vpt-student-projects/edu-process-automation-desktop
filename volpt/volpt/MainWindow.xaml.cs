@@ -37,5 +37,10 @@ namespace volpt
             loginWindow.Show();
             Close();
         }
+
+        private void GroupsButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new GroupsPage(_userId));
+        }
     }
 }

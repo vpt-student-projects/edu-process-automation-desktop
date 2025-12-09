@@ -5,9 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:volpt.MVVM.View"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
       Title="Группы">
-
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -15,8 +14,7 @@
         </Grid.RowDefinitions>
 
         <!-- Заголовок и управление -->
-        <Border Grid.Row="0" 
-                Background="{StaticResource Light2Brush}"
+        <Border Grid.Row="0"
                 CornerRadius="8"
                 Margin="0,2"
                 Padding="16,8">
@@ -25,64 +23,6 @@
                            Style="{StaticResource H2}" 
                            HorizontalAlignment="Left"
                            VerticalAlignment="Center"/>
-
-                <StackPanel Orientation="Horizontal" 
-                            HorizontalAlignment="Right">
-
-                    <!-- Кнопка "Обновить" -->
-                    <Button x:Name="RefreshButton"
-                            Content="Обновить" 
-                            Margin="4,0"
-                            Padding="12,6"
-                            MinWidth="80"
-                            Background="{StaticResource PrimaryColorBrush}"
-                            Foreground="{StaticResource TextBrush}"
-                            BorderBrush="Transparent"
-                            BorderThickness="1"
-                            FontSize="14"
-                            Cursor="Hand"
-                            Click="RefreshButton_Click">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border x:Name="border" 
-                                        Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        CornerRadius="8">
-                                    <ContentPresenter HorizontalAlignment="Center" 
-                                                      VerticalAlignment="Center"/>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="border" 
-                                                Property="Background" 
-                                                Value="{StaticResource PrimaryColorBrush}"/>
-                                    </Trigger>
-                                    <Trigger Property="IsPressed" Value="True">
-                                        <Setter TargetName="border" 
-                                                Property="Background" 
-                                                Value="{StaticResource PrimaryColorBrush}"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
-
-                    <!-- Индикатор загрузки -->
-                    <StackPanel x:Name="LoadingPanel"
-                                Orientation="Horizontal"
-                                Visibility="Collapsed">
-                        <ProgressBar IsIndeterminate="True" 
-                                     Width="100"
-                                     Height="6"
-                                     Margin="8,0"
-                                     VerticalAlignment="Center"/>
-                        <TextBlock Text="Загрузка..." 
-                                   Style="{StaticResource H6}"
-                                   VerticalAlignment="Center"
-                                   Foreground="{StaticResource PrimaryColorBrush}"/>
-                    </StackPanel>
-                </StackPanel>
             </Grid>
         </Border>
 
@@ -91,10 +31,8 @@
                       VerticalScrollBarVisibility="Auto"
                       Padding="16"
                       Background="Transparent">
-
             <!-- Контейнер для контента -->
             <ContentControl x:Name="ContentContainer"/>
-
         </ScrollViewer>
 
     </Grid>
