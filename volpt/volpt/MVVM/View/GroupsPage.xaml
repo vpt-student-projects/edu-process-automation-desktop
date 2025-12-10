@@ -13,26 +13,33 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Заголовок и управление -->
+        <!-- Заголовок -->
         <Border Grid.Row="0"
-                CornerRadius="8"
-                Margin="0,2"
-                Padding="16,8">
-            <Grid>
-                <TextBlock Text="Группы и предметы" 
-                           Style="{StaticResource H2}" 
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Center"/>
-            </Grid>
+                Margin="0,2">
+            <TextBlock Text="Группы и предметы" 
+                       Style="{StaticResource H2}" 
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"/>
         </Border>
 
         <!-- Контейнер групп -->
         <ScrollViewer Grid.Row="1" 
                       VerticalScrollBarVisibility="Auto"
                       Padding="16"
-                      Background="Transparent">
-            <!-- Контейнер для контента -->
-            <ContentControl x:Name="ContentContainer"/>
+                      Background="Transparent"
+                      Style="{StaticResource CustomScrollViewerStyle}">
+            <ItemsControl ItemsSource="{Binding Groups}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:GroupCardView/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
 
     </Grid>

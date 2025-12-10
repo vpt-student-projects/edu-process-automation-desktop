@@ -15,6 +15,7 @@
                 <!-- Затем компоненты -->
                 <ResourceDictionary Source="pack://application:,,,/Theme/LoginBtn.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Theme/MainButtontTheme.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Theme/ScrollBarTheme.xaml"/>
 
                 <!-- И в конце - стили окон (которые зависят от предыдущих) -->
                 <ResourceDictionary Source="pack://application:,,,/Theme/LoginWindowTheme.xaml"/>

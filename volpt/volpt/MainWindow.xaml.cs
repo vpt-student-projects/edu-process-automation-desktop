@@ -42,5 +42,10 @@ namespace volpt
         {
             MainFrame.Navigate(new GroupsPage(_userId));
         }
+
+        private void ScheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new SchedulePage(_userId));
+        }
     }
 }

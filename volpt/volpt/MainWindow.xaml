@@ -24,7 +24,8 @@
                                      Style="{StaticResource MainButtonStyle}"
                                      Content="Расписание" 
                                      FontSize="16" VerticalAlignment="Center" 
-                                     Margin="8,4"/>
+                                     Margin="8,4"
+                                     Click="ScheduleButton_Click"/>
                         <Button x:Name="groups" 
                                 Style="{StaticResource MainButtonStyle}"
                                 Content="Список групп" 

@@ -86,7 +86,7 @@ namespace volpt.Core
         {
             if (value is bool isExpanded)
             {
-                return isExpanded ? 180 : 90; // 180° - стрелка вниз, 90° - стрелка вправо
+                return isExpanded ? 0 : -90; // 180° - стрелка вниз, 90° - стрелка вправо
             }
             return 90;
         }
