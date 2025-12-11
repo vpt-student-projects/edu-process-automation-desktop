@@ -20,18 +20,19 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Thumb">
                     <Border x:Name="ThumbBorder"
-                            Background="{StaticResource SecondaryBrush}"
+                            Background="{StaticResource PrimaryColorBrush}"
                             CornerRadius="6"
-                            Opacity="0.5"
-                            Width="8"
-                            Margin="2,0"/>
+                            Opacity="0.7"
+                            MinWidth="8"
+                            MinHeight="2"
+                            Margin="4"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"/>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="ThumbBorder" Property="Background" Value="{StaticResource PrimaryColorBrush}"/>
-                            <Setter TargetName="ThumbBorder" Property="Opacity" Value="0.8"/>
+                            <Setter TargetName="ThumbBorder" Property="Opacity" Value="0.9"/>
                         </Trigger>
                         <Trigger Property="IsDragging" Value="True">
-                            <Setter TargetName="ThumbBorder" Property="Background" Value="{StaticResource PrimaryColorBrush}"/>
                             <Setter TargetName="ThumbBorder" Property="Opacity" Value="1.0"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -42,21 +43,15 @@
 
     <!-- Стиль для ScrollBar - использует стили выше -->
     <Style x:Key="CustomScrollBarStyle" TargetType="ScrollBar">
-        <Setter Property="Width" Value="12"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ScrollBar">
                     <Grid x:Name="GridRoot">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="0.00001*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        
                         <Track x:Name="PART_Track" 
                                IsDirectionReversed="True"
                                Focusable="False"
-                               Grid.Row="1">
+                               Orientation="{TemplateBinding Orientation}">
                             <Track.DecreaseRepeatButton>
                                 <RepeatButton Style="{StaticResource ScrollBarButtonStyle}"
                                              Command="ScrollBar.PageUpCommand"/>
@@ -73,6 +68,14 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Width" Value="12"/>
+            </Trigger>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Height" Value="12"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <!-- Стиль для ScrollViewer -->
@@ -93,7 +96,7 @@
                         <Rectangle x:Name="Corner" 
                                    Grid.Column="1" 
                                    Grid.Row="1" 
-                                   Fill="{StaticResource Light2Brush}"/>
+                                   Fill="{StaticResource BackgroundLightBrush}"/>
 
                         <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
                                               CanContentScroll="{TemplateBinding CanContentScroll}"
@@ -111,6 +114,7 @@
                                   Grid.Column="1"
                                   Maximum="{TemplateBinding ScrollableHeight}"
                                   Minimum="0"
+                                  Orientation="Vertical"
                                   Grid.Row="0"
                                   Style="{StaticResource CustomScrollBarStyle}"
                                   ViewportSize="{TemplateBinding ViewportHeight}"

@@ -5,17 +5,20 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:volpt.MVVM.View"
       mc:Ignorable="d" 
-      Title="Группы">
-    
-    <Grid>
+      Title="Группы"
+       SnapsToDevicePixels="True"
+         UseLayoutRounding="True"
+         Background="Transparent" 
+         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+    <Grid Margin="32,2">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Заголовок -->
-        <Border Grid.Row="0"
-                Margin="32,2">
+        <Border Grid.Row="0"  Margin="0,2">
             <TextBlock Text="Группы и предметы" 
                        Style="{StaticResource H2}" 
                        HorizontalAlignment="Left"
@@ -24,8 +27,7 @@
 
         <!-- Контейнер групп -->
         <ScrollViewer Grid.Row="1" 
-                      VerticalScrollBarVisibility="Auto"
-                      Padding="16"
+                      VerticalScrollBarVisibility="Visible"
                       Background="Transparent"
                       Style="{StaticResource CustomScrollViewerStyle}">
             <ItemsControl ItemsSource="{Binding Groups}">
