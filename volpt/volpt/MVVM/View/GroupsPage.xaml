@@ -15,7 +15,7 @@
 
         <!-- Заголовок -->
         <Border Grid.Row="0"
-                Margin="0,2">
+                Margin="32,2">
             <TextBlock Text="Группы и предметы" 
                        Style="{StaticResource H2}" 
                        HorizontalAlignment="Left"
