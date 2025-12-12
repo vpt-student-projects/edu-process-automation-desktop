@@ -19,6 +19,7 @@
 
                 <!-- И в конце - стили окон (которые зависят от предыдущих) -->
                 <ResourceDictionary Source="pack://application:,,,/Theme/LoginWindowTheme.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Theme/AttendancePageTheme.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
             <core:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>

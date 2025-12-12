@@ -5,10 +5,55 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:volpt.MVVM.View"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="AttendancePage">
+      Title="Успеваемость и посещаемость"
+      SnapsToDevicePixels="True"
+    UseLayoutRounding="True"
+    Background="Transparent" 
+    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-    <Grid>
-        
+    <Grid Margin="32,2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0"  Margin="0,2" Text="Успеваемость и посещаемость" 
+                     Style="{StaticResource H2}" 
+                     HorizontalAlignment="Left"
+                     VerticalAlignment="Center"/>
+        <Border Grid.Row="0" Background="{StaticResource BackgroundLightBrush}"
+                    BorderBrush="{StaticResource AccentLightBrush}"
+                    BorderThickness="1"
+                    CornerRadius="15"
+                    HorizontalAlignment="Right" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2">
+                <RadioButton x:Name="PerformanceRadio" Content="Успеваемость" 
+                            GroupName="ViewGroup" IsChecked="True" Style="{StaticResource AnimatedToggleButton}"/>
+                <RadioButton x:Name="AttendanceRadio" Content="Посещаемость" 
+                            GroupName="ViewGroup" Style="{StaticResource AnimatedToggleButton}"/>
+            </StackPanel>
+        </Border>
+            
+
+        <!-- Контейнер групп -->
+        <ScrollViewer Grid.Row="1" 
+                    VerticalScrollBarVisibility="Visible"
+                    Background="Transparent"
+                    Style="{StaticResource CustomScrollViewerStyle}">
+            <ItemsControl ItemsSource="{Binding Groups}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:GroupCardView/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
     </Grid>
 </Page>

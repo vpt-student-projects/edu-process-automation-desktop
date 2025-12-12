@@ -75,25 +75,5 @@
         </Setter>
     </Style>
 
-    <!-- Стиль для индикатора загрузки -->
-    <Style x:Key="LoadingProgressBarStyle" TargetType="ProgressBar">
-        <Setter Property="Foreground" Value="{StaticResource PrimaryColorBrush}"/>
-        <Setter Property="Background" Value="{StaticResource Light2Brush}"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Height" Value="4"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ProgressBar">
-                    <Border Background="{TemplateBinding Background}"
-                        CornerRadius="2">
-                        <Grid x:Name="PART_Track">
-                            <Rectangle x:Name="PART_Indicator" 
-                                   HorizontalAlignment="Left" 
-                                   Fill="{TemplateBinding Foreground}"/>
-                        </Grid>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+    
 </ResourceDictionary>
