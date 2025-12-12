@@ -242,6 +242,99 @@ class TimetableProcessor:
         finally:
             conn.close()
 
+        def upsert_user_group_relation(self, user_id, group_id):
+        if not user_id or not group_id:
+            return False
+            
+        conn = self.get_db_connection()
+        if not conn:
+            return False
+            
+        try:
+            cur = conn.cursor()
+            cur.execute('''
+                SELECT 1 FROM "User_Group" 
+                WHERE "UserId" = %s AND "GroupId" = %s
+            ''', (user_id, group_id))
+            
+            if not cur.fetchone():
+                cur.execute('''
+                    INSERT INTO "User_Group" ("UserId", "GroupId")
+                    VALUES (%s, %s)
+                ''', (user_id, group_id))
+                conn.commit()
+                logging.debug(f"Created User-Group relation: UserId={user_id}, GroupId={group_id}")
+                return True
+            return True
+        except Exception as e:
+            logging.error(f"Error upserting user-group relation: {e}")
+            conn.rollback()
+            return False
+        finally:
+            conn.close()
+
+    def upsert_user_subject_relation(self, user_id, subject_id):
+        if not user_id or not subject_id:
+            return False
+            
+        conn = self.get_db_connection()
+        if not conn:
+            return False
+            
+        try:
+            cur = conn.cursor()
+            cur.execute('''
+                SELECT 1 FROM "User_Subject" 
+                WHERE "UserId" = %s AND "SubjectId" = %s
+            ''', (user_id, subject_id))
+            
+            if not cur.fetchone():
+                cur.execute('''
+                    INSERT INTO "User_Subject" ("UserId", "SubjectId")
+                    VALUES (%s, %s)
+                ''', (user_id, subject_id))
+                conn.commit()
+                logging.debug(f"Created User-Subject relation: UserId={user_id}, SubjectId={subject_id}")
+                return True
+            return True
+        except Exception as e:
+            logging.error(f"Error upserting user-subject relation: {e}")
+            conn.rollback()
+            return False
+        finally:
+            conn.close()
+
+    def upsert_group_subject_relation(self, group_id, subject_id):
+        if not group_id or not subject_id:
+            return False
+            
+        conn = self.get_db_connection()
+        if not conn:
+            return False
+            
+        try:
+            cur = conn.cursor()
+            cur.execute('''
+                SELECT 1 FROM "Group_Subject" 
+                WHERE "GroupId" = %s AND "SubjectId" = %s
+            ''', (group_id, subject_id))
+            
+            if not cur.fetchone():
+                cur.execute('''
+                    INSERT INTO "Group_Subject" ("GroupId", "SubjectId")
+                    VALUES (%s, %s)
+                ''', (group_id, subject_id))
+                conn.commit()
+                logging.debug(f"Created Group-Subject relation: GroupId={group_id}, SubjectId={subject_id}")
+                return True
+            return True
+        except Exception as e:
+            logging.error(f"Error upserting group-subject relation: {e}")
+            conn.rollback()
+            return False
+        finally:
+            conn.close()
+
     def upsert_lesson(self, conn, date_obj, lesson_number, user_id, subject_id, group_id, classroom):
         try:
             cur = conn.cursor()
