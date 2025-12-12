@@ -16,7 +16,7 @@
                 <ControlTemplate TargetType="RadioButton">
                     <Border x:Name="Border"
                         Background="{TemplateBinding Background}"
-                        CornerRadius="13">
+                        CornerRadius="12">
                         <Grid>
                             <Rectangle x:Name="Ripple" 
                                    Fill="{StaticResource AccentLightBrush}" 
@@ -53,7 +53,7 @@
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Background" Value="{StaticResource AccentLightBrush}"/>
                             <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
-                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
                             <Setter Property="BorderBrush" Value="{StaticResource AccentLightBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>

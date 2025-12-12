@@ -68,7 +68,6 @@ namespace volpt.MVVM.ViewModel
                     {
                         MessageBox.Show($"Ошибка загрузки групп: {ex.Message}",
                             "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                        LoadMockData();
                     });
                 }
                 finally
@@ -217,28 +216,6 @@ namespace volpt.MVVM.ViewModel
             }
 
             return subjectName.Trim();
-        }
-
-        // Метод для загрузки тестовых данных
-        private void LoadMockData()
-        {
-            var mockGroup = new GroupModel
-            {
-                Id = 1,
-                Name = "2-22 ИСП-8",
-                StudentCount = 25,
-                LessonCount = 12,
-                IsExpanded = false,
-                Subjects = new List<SubjectModel>
-                {
-                    new() { Id = 1, Code = "МДК 02.03", Title = "Математическое моделирование", TotalHours = 72 },
-                    new() { Id = 2, Code = "МДК 04.01", Title = "Внедрение и поддержка компьютерных систем", TotalHours = 108 },
-                    new() { Id = 3, Code = "", Title = "Иностранный язык в профессиональной деятельности", TotalHours = 144 },
-                    new() { Id = 4, Code = "МДК 04.02", Title = "Обеспечение качества функционирования компьютерных систем", TotalHours = 90 }
-                }
-            };
-
-            Groups.Add(mockGroup);
         }
     }
 }
