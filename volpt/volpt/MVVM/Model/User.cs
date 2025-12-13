@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using volpt.MVVM.Model;
 
 namespace volpt;
 
@@ -19,6 +20,7 @@ public partial class User
     public DateTime? TokenExpiresAt { get; set; }
 
     public virtual ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
+    public virtual ICollection<UserGroupSubject> UserGroupSubjects { get; set; } = new List<UserGroupSubject>();
 
     public virtual Role Role { get; set; } = null!;
 

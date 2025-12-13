@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+using volpt.MVVM.Model;
 
 namespace volpt;
 
@@ -38,9 +39,9 @@ public partial class VolpteducationDbContext : DbContext
     public virtual DbSet<TopicType> TopicTypes { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<UserGroupSubject> UserGroupSubject { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseNpgsql("Server=147.185.221.224;Port=20541;Database=VolptEDUDB;Username=postgres;Password=1638");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -227,6 +228,28 @@ public partial class VolpteducationDbContext : DbContext
             entity.HasOne(d => d.Role).WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)
                 .HasConstraintName("FK_User_RoleId");
+        });
+        modelBuilder.Entity<UserGroupSubject>(entity =>
+        {
+            entity.HasKey(e => new { e.UserId, e.GroupId, e.SubjectId })
+          .HasName("UserGroupSubject_pkey");
+
+            entity.ToTable("UserGroupSubject");
+
+            entity.HasOne(d => d.User)
+                .WithMany(p => p.UserGroupSubjects)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("UserGroupSubject_UserId");
+
+            entity.HasOne(d => d.Group)
+                .WithMany(p => p.UserGroupSubjects)
+                .HasForeignKey(d => d.GroupId)
+                .HasConstraintName("UserGroupSubject_GroupId");
+
+            entity.HasOne(d => d.Subject)
+                .WithMany(p => p.UserGroupSubjects)
+                .HasForeignKey(d => d.SubjectId)
+                .HasConstraintName("UserGroupSubject_SubjectId");
         });
 
         OnModelCreatingPartial(modelBuilder);
