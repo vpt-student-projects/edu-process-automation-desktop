@@ -45,7 +45,8 @@
                         <ItemsControl ItemsSource="{Binding Dates}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border  BorderBrush="{StaticResource PrimaryColorBrush}" 
+                                    <Border Width="100" 
+                                            BorderBrush="{StaticResource PrimaryColorBrush}" 
                                             BorderThickness="0,0,1,1"
                                             Padding="5">
                                         <TextBlock Text="{Binding StringFormat='dd.MM.yyyy'}" Style="{StaticResource H6}"
@@ -114,7 +115,8 @@
                                     <ItemsControl ItemsSource="{Binding Grades}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Border  BorderBrush="{StaticResource PrimaryColorBrush}" 
+                                                <Border Width="100" 
+                                                            BorderBrush="{StaticResource PrimaryColorBrush}" 
                                                             BorderThickness="0,0,1,0"
                                                             Padding="5">
                                                     <ComboBox SelectedItem="{Binding Value}"
