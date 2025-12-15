@@ -3,18 +3,56 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespace:volpt.Core"
              mc:Ignorable="d" 
              SnapsToDevicePixels="True"
              UseLayoutRounding="True"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <!-- Конвертер статуса в цвет фона -->
+        <local:AttendanceStatusToBrushConverter x:Key="StatusToBrushConverter"/>
+
+        <!-- Конвертер статуса в цвет текста -->
+        <local:AttendanceStatusToForegroundConverter x:Key="StatusToForegroundConverter"/>
+
+        <!-- Стиль для кнопки посещаемости -->
+        <Style x:Key="AttendanceCellStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{StaticResource PrimaryColorBrush}"
+                                BorderThickness="0,0,1,0">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Border" Property="Opacity" Value="0.6"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid Background="{StaticResource BackgroundLightBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Заголовок -->
+        <!-- Заголовок таблицы -->
         <Grid Grid.Row="0" Height="40">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
@@ -22,13 +60,20 @@
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" BorderBrush="{StaticResource PrimaryColorBrush}" BorderThickness="0,0,1,1">
-                <TextBlock Text="Студент" Style="{StaticResource H5}"
+            <!-- Заголовок "Студент" -->
+            <Border Grid.Column="0" 
+                    BorderBrush="{StaticResource PrimaryColorBrush}" 
+                    BorderThickness="0,0,1,1"
+                    Background="{StaticResource PrimaryColorBrush}">
+                <TextBlock Text="Студент" 
+                           Style="{StaticResource H5}"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"
-                           FontWeight="Bold"/>
+                           FontWeight="Bold"
+                           Foreground="White"/>
             </Border>
 
+            <!-- Заголовки дат -->
             <ScrollViewer Grid.Column="1" 
                           HorizontalScrollBarVisibility="Auto"
                           VerticalScrollBarVisibility="Hidden">
@@ -36,13 +81,16 @@
                     <ItemsControl ItemsSource="{Binding Dates}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Width="100" 
+                                <Border Width="60" 
+                                        Height="40"
                                         BorderBrush="{StaticResource PrimaryColorBrush}" 
                                         BorderThickness="0,0,1,1"
-                                        Padding="5">
-                                    <TextBlock Text="{Binding StringFormat='dd.MM.yyyy'}"
+                                        Background="{StaticResource PrimaryColorBrush}">
+                                    <TextBlock Text="{Binding StringFormat='dd.MM'}"
                                                HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"/>
+                                               VerticalAlignment="Center"
+                                               FontWeight="Bold"
+                                               Foreground="White"/>
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -55,15 +103,20 @@
                 </StackPanel>
             </ScrollViewer>
 
-            <Border Grid.Column="2" BorderBrush="{StaticResource PrimaryColorBrush}" BorderThickness="0,0,0,1">
-                <TextBlock Text="Посещаемость %" 
+            <!-- Заголовок "Посещаемость %" -->
+            <Border Grid.Column="2" 
+                    BorderBrush="{StaticResource PrimaryColorBrush}" 
+                    BorderThickness="0,0,0,1"
+                    Background="{StaticResource PrimaryColorBrush}">
+                <TextBlock Text="Посещ. %" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"
-                           FontWeight="Bold"/>
+                           FontWeight="Bold"
+                           Foreground="White"/>
             </Border>
         </Grid>
 
-        <!-- Тело -->
+        <!-- Тело таблицы -->
         <ScrollViewer Grid.Row="1"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Hidden">
@@ -77,18 +130,19 @@
                                 <ColumnDefinition Width="100"/>
                             </Grid.ColumnDefinitions>
 
-                            <!-- Имя -->
+                            <!-- Имя студента -->
                             <Border Grid.Column="0" 
                                     BorderBrush="{StaticResource PrimaryColorBrush}" 
                                     BorderThickness="0,0,1,0"
-                                    Background="Transparent">
+                                    Background="White">
                                 <TextBlock Text="{Binding FullName}"
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Left"
-                                           Margin="5"/>
+                                           Margin="10,0"
+                                           Style="{StaticResource H6}"/>
                             </Border>
 
-                            <!-- Статусы по датам -->
+                            <!-- Ячейки посещаемости -->
                             <ScrollViewer Grid.Column="1" 
                                           HorizontalScrollBarVisibility="Auto"
                                           VerticalScrollBarVisibility="Hidden">
@@ -96,15 +150,21 @@
                                     <ItemsControl ItemsSource="{Binding AttendanceRecords}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Border Width="100" 
-                                                        BorderBrush="{StaticResource PrimaryColorBrush}" 
-                                                        BorderThickness="0,0,1,0"
-                                                        Padding="5">
+                                                <!-- Кнопка для переключения статуса -->
+                                                <Button Width="60" 
+                                                        Height="40"
+                                                        Command="{Binding ToggleStatusCommand}"
+                                                        Style="{StaticResource AttendanceCellStyle}"
+                                                        Background="{Binding Status, Converter={StaticResource StatusToBrushConverter}}"
+                                                        ToolTip="Клик: ✓ → н/б → оп → пусто">
+
                                                     <TextBlock Text="{Binding Display}"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
-                                                               FontWeight="Bold"/>
-                                                </Border>
+                                                               FontWeight="Bold"
+                                                               FontSize="14"
+                                                               Foreground="{Binding Status, Converter={StaticResource StatusToForegroundConverter}}"/>
+                                                </Button>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                         <ItemsControl.ItemsPanel>
@@ -116,14 +176,16 @@
                                 </StackPanel>
                             </ScrollViewer>
 
-                            <!-- Процент -->
+                            <!-- Процент посещаемости -->
                             <Border Grid.Column="2" 
                                     BorderBrush="{StaticResource PrimaryColorBrush}" 
-                                    BorderThickness="0,0,0,0">
+                                    BorderThickness="0,0,0,0"
+                                    Background="White">
                                 <TextBlock Text="{Binding AttendancePercentage, StringFormat={}{0:F1}%}"
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Center"
                                            FontWeight="Bold"
+                                           Style="{StaticResource H6}"
                                            Foreground="{StaticResource PrimaryColorBrush}"/>
                             </Border>
                         </Grid>

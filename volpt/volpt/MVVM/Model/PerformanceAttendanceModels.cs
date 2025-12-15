@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using volpt.Core;
 
 namespace volpt.MVVM.Model
@@ -46,37 +47,70 @@ namespace volpt.MVVM.Model
         }
     }
 
-    public class AttendanceRecord : ObservableObject
-    {
-        private AttendanceStatus _status;
+	public class AttendanceRecord : ObservableObject
+	{
+		private AttendanceStatus _status;
 
-        public DateTime Date { get; set; }
-        public AttendanceStatus Status
-        {
-            get => _status;
-            set
+		public DateTime Date { get; set; }
+
+		public ICommand ToggleStatusCommand { get; }
+
+		public AttendanceRecord()
+		{
+			ToggleStatusCommand = new RelayCommand(ToggleStatus);
+		}
+
+		public AttendanceStatus Status
+		{
+			get => _status;
+			set
+			{
+				if (SetProperty(ref _status, value))
+				{
+					OnPropertyChanged(nameof(Display));
+				}
+			}
+		}
+
+		public string Display => Status switch
+		{
+			AttendanceStatus.Present => "✓",
+			AttendanceStatus.Absent => "н/б",
+			AttendanceStatus.Late => "оп",
+			_ => string.Empty
+		};
+
+		private void ToggleStatus()
+		{
+			// Цикл: пусто → ✓ → н/б → оп → пусто
+			Status = Status switch
+			{
+				AttendanceStatus.Present => AttendanceStatus.Absent,  // ✓ → н/б
+				AttendanceStatus.Absent => AttendanceStatus.Late,     // н/б → оп
+				AttendanceStatus.Late => AttendanceStatus.None,       // оп → пусто
+				_ => AttendanceStatus.Present                         // пусто → ✓
+			};
+
+			// Если нужно другой порядок, например: пусто → н/б → оп → ✓ → пусто
+			// Раскомментируйте этот код:
+			/*
+            Status = Status switch
             {
-                if (SetProperty(ref _status, value))
-                {
-                    OnPropertyChanged(nameof(Display));
-                }
-            }
-        }
+                AttendanceStatus.None => AttendanceStatus.Absent,     // пусто → н/б
+                AttendanceStatus.Absent => AttendanceStatus.Late,     // н/б → оп
+                AttendanceStatus.Late => AttendanceStatus.Present,    // оп → ✓
+                _ => AttendanceStatus.None                            // ✓ → пусто
+            };
+            */
+		}
+	}
 
-        public string Display => Status switch
-        {
-            AttendanceStatus.Present => "✓",
-            AttendanceStatus.Absent => "н/б",
-            AttendanceStatus.Late => "оп",
-            _ => string.Empty
-        };
-    }
-
-    public enum AttendanceStatus
-    {
-        Present,    // ✓
-        Absent,     // н/б
-        Late        // оп
-    }
+	public enum AttendanceStatus
+	{
+		None,       // пусто
+		Present,    // ✓
+		Absent,     // н/б
+		Late        // оп
+	}
 }
 
