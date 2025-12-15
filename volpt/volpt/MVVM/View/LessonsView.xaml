@@ -9,13 +9,14 @@
              
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
-    <Button>
+    <Button Click="Lesson_Click">
         <Button.Template>
             <ControlTemplate TargetType="Button">
                 <Border x:Name="Border" Background="Transparent"
                     BorderBrush="{StaticResource AccentLightBrush}"
                     BorderThickness="1"
-                    CornerRadius="8" Padding="6" Margin="0,0,0,8">
+                    CornerRadius="8" Padding="6" Margin="0,0,0,8"
+                    DataContext="{Binding Lesson, RelativeSource={RelativeSource AncestorType=UserControl}}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition/>

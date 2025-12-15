@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using volpt.MVVM.Model;
+using volpt.Core;
 
 namespace volpt.MVVM.View
 {
@@ -35,6 +36,17 @@ namespace volpt.MVVM.View
                 MessageBox.Show($"Открыть студентов группы: {group.Name} (ID: {group.Id})",
                     "Студенты", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+        }
+
+        private void SubjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is not GroupModel group)
+                return;
+
+            if (sender is not Button button || button.DataContext is not SubjectModel subject)
+                return;
+
+            NavigationHelper.NavigateToJournal(group.Id, subject.Id);
         }
     }
 }

@@ -128,6 +128,8 @@ namespace volpt.MVVM.ViewModel
 			var lessons = db.Lessons
 				.Include(l => l.Subject)
 				.Include(l => l.Group)
+				.Include(l => l.Grades)
+				.Include(l => l.Attendances)
 				.Include(l => l.User)
 				.Where(l => l.UserId == _userId &&
 						   weekDates.Contains(l.Date))
@@ -145,6 +147,10 @@ namespace volpt.MVVM.ViewModel
 					.OrderBy(l => l.Number)
 					.Select(l => new LessonItem
 					{
+						Id = l.Id,
+						GroupId = l.GroupId,
+						SubjectId = l.SubjectId,
+						Date = l.Date,
 						Number = l.Number.ToString(),
 						Subject = l.Subject?.Name ?? "Не указано",
 						Time = GetTimeByNumber(l.Number),

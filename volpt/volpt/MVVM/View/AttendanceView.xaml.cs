@@ -12,20 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using volpt.MVVM.ViewModel;
 
 namespace volpt.MVVM.View
 {
     /// <summary>
-    /// Логика взаимодействия для AttendancePage.xaml
+    /// Логика взаимодействия для AttendanceView.xaml
     /// </summary>
-    public partial class AttendancePage : Page
+    public partial class AttendanceView : UserControl
     {
-
-        public AttendancePage(int groupId, int subjectId)
+        public AttendanceView()
         {
             InitializeComponent();
-            DataContext = new AttendancePageViewModel(groupId, subjectId);
         }
     }
 }

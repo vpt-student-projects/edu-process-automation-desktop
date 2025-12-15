@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:volpt.MVVM.View"
+      xmlns:vm="clr-namespace:volpt.MVVM.ViewModel"
       mc:Ignorable="d" 
       Title="Успеваемость и посещаемость"
       SnapsToDevicePixels="True"
@@ -29,31 +30,21 @@
                     HorizontalAlignment="Right" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2">
                 <RadioButton x:Name="PerformanceRadio" Content="Успеваемость" 
-                            GroupName="ViewGroup" IsChecked="True" Style="{StaticResource AnimatedToggleButton}"/>
+                            GroupName="ViewGroup"
+                            IsChecked="{Binding ShowPerformance, Mode=TwoWay}"
+                            Style="{StaticResource AnimatedToggleButton}"/>
                 <RadioButton x:Name="AttendanceRadio" Content="Посещаемость" 
-                            GroupName="ViewGroup" Style="{StaticResource AnimatedToggleButton}"/>
+                            GroupName="ViewGroup"
+                            IsChecked="{Binding ShowAttendance, Mode=TwoWay}"
+                            Style="{StaticResource AnimatedToggleButton}"/>
             </StackPanel>
         </Border>
             
-
-        <!-- Контейнер групп -->
-        <ScrollViewer Grid.Row="1" 
-                    VerticalScrollBarVisibility="Visible"
-                    Background="Transparent"
-                    Style="{StaticResource CustomScrollViewerStyle}">
-            <ItemsControl ItemsSource="{Binding Groups}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <local:GroupCardView/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+        <!-- Контент страниц -->
+        <Grid Grid.Row="1" Margin="0,8,0,0">
+            <local:PerformanceView Visibility="{Binding ShowPerformance, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <local:AttendanceView Visibility="{Binding ShowAttendance, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        </Grid>
 
     </Grid>
 </Page>

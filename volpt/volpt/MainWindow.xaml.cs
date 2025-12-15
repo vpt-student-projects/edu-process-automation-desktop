@@ -47,5 +47,10 @@ namespace volpt
         {
             MainFrame.Navigate(new SchedulePage(_userId));
         }
+
+        public void Navigate(Page page)
+        {
+            MainFrame.Navigate(page);
+        }
     }
 }

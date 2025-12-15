@@ -61,4 +61,50 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="AttendanceToggleButton" TargetType="ToggleButton">
+        <Setter Property="Background" Value="LightGray"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="DarkGray"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="3">
+                        <ContentPresenter HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- Первое нажатие: н/б (не был) -->
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter Property="Background" Value="LightCoral"/>
+                            <Setter Property="Content" Value="н/б"/>
+                        </Trigger>
+
+                        <!-- Второе нажатие: оп (опоздал) -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True"/>
+                                <Condition Property="Tag" Value="{x:Null}"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="Gold"/>
+                            <Setter Property="Content" Value="оп"/>
+                        </MultiTrigger>
+
+                        <!-- Третье нажатие: сброс -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True"/>
+                                <Condition Property="Tag" Value="оп"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="LightGreen"/>
+                            <Setter Property="Content" Value="✓"/>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

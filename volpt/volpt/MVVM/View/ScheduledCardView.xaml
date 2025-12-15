@@ -34,7 +34,8 @@
                              Visibility="{Binding Lessons.Count, Converter={StaticResource CountToVisibilityConverter}}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <local:LessonsView/>
+                            <!-- Передаём LessonItem в DependencyProperty Lesson -->
+                            <local:LessonsView Lesson="{Binding}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
