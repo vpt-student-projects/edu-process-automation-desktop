@@ -118,6 +118,7 @@
                         BorderBrush="{StaticResource PrimaryColorBrush}" 
                         BorderThickness="0,0,0,1">
                     <TextBlock Text="Средняя" 
+                               Style="{StaticResource H5}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Center"
                                FontWeight="Bold"/>

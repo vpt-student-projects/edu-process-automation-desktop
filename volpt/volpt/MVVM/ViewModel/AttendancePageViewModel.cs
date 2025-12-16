@@ -149,17 +149,9 @@ namespace volpt.MVVM.ViewModel
                             .Attendances
                             .FirstOrDefault(a => a.StudentId == st.Id);
 
-                        var status = MapAttendanceStatus(attendance);
-
-                        attendanceRecords.Add(new AttendanceRecord
-                        {
-                            Date = date,
-                            Status = status
-                        });
                     }
 
                     var total = attendanceRecords.Count;
-                    var presentCount = attendanceRecords.Count(a => a.Status != AttendanceStatus.Absent);
 
                     AttendanceStudents.Add(new StudentAttendance
                     {
@@ -171,18 +163,6 @@ namespace volpt.MVVM.ViewModel
             });
         }
 
-        private AttendanceStatus MapAttendanceStatus(Attendance? attendance)
-        {
-            if (attendance == null || attendance.Type == null)
-                return AttendanceStatus.Present;
 
-            var name = attendance.Type.Name?.ToLowerInvariant() ?? string.Empty;
-            if (name.Contains("оп"))
-                return AttendanceStatus.Late;
-            if (name.Contains("не") || name.Contains("нб") || name.Contains("н/б"))
-                return AttendanceStatus.Absent;
-
-            return AttendanceStatus.Present;
-        }
     }
 }

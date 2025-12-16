@@ -42,7 +42,7 @@ public partial class VolpteducationDbContext : DbContext
     public virtual DbSet<UserGroupSubject> UserGroupSubject { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql("Server=147.185.221.224;Port=20541;Database=VolptEDUDB;Username=postgres;Password=1638");
+        => optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=VolptEDUDB;Username=postgres;Password=sa");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

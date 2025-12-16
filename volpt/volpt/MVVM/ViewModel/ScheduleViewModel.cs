@@ -128,8 +128,6 @@ namespace volpt.MVVM.ViewModel
 			var lessons = db.Lessons
 				.Include(l => l.Subject)
 				.Include(l => l.Group)
-				.Include(l => l.Grades)
-				.Include(l => l.Attendances)
 				.Include(l => l.User)
 				.Where(l => l.UserId == _userId &&
 						   weekDates.Contains(l.Date))

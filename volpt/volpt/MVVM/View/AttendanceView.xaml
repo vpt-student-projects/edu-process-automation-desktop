@@ -8,44 +8,7 @@
              SnapsToDevicePixels="True"
              UseLayoutRounding="True"
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <!-- Конвертер статуса в цвет фона -->
-        <local:AttendanceStatusToBrushConverter x:Key="StatusToBrushConverter"/>
-
-        <!-- Конвертер статуса в цвет текста -->
-        <local:AttendanceStatusToForegroundConverter x:Key="StatusToForegroundConverter"/>
-
-        <!-- Стиль для кнопки посещаемости -->
-        <Style x:Key="AttendanceCellStyle" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Border"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{StaticResource PrimaryColorBrush}"
-                                BorderThickness="0,0,1,0">
-                            <ContentPresenter HorizontalAlignment="Center" 
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Opacity" Value="0.8"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Border" Property="Opacity" Value="0.6"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
+   
     <Grid Background="{StaticResource BackgroundLightBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -155,15 +118,17 @@
                                                         Height="40"
                                                         Command="{Binding ToggleStatusCommand}"
                                                         Style="{StaticResource AttendanceCellStyle}"
-                                                        Background="{Binding Status, Converter={StaticResource StatusToBrushConverter}}"
-                                                        ToolTip="Клик: ✓ → н/б → оп → пусто">
+                                                        Background="{Binding Converter={StaticResource StatusToBrushConverter}}" 
+                                                    ToolTip="{Binding ToolTipText}">
+                                                    <!-- Изменено -->
 
                                                     <TextBlock Text="{Binding Display}"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                FontWeight="Bold"
                                                                FontSize="14"
-                                                               Foreground="{Binding Status, Converter={StaticResource StatusToForegroundConverter}}"/>
+                                                               Foreground="{Binding Converter={StaticResource StatusToForegroundConverter}}"/>
+                                                 
                                                 </Button>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>

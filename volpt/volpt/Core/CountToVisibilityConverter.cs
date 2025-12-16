@@ -111,50 +111,53 @@ namespace volpt.Core
             throw new NotImplementedException();
         }
     }
-	public class AttendanceStatusToBrushConverter : IValueConverter
-	{
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			if (value is AttendanceStatus status)
-			{
-				return status switch
-				{
-					AttendanceStatus.Present => Brushes.LightGreen,      // ✓ - зеленый
-					AttendanceStatus.Absent => Brushes.LightCoral,       // н/б - красный
-					AttendanceStatus.Late => Brushes.LightGoldenrodYellow, // оп - желтый
-					_ => Brushes.Transparent                            // пусто - прозрачный
-				};
-			}
-			return Brushes.Transparent;
-		}
+    public class AttendanceStatusToBrushConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is AttendanceRecord record)
+            {
+                return record.AttendanceTypeId switch
+                {
+                    1 => Brushes.LightCoral,        // нб - светло-красный
+                    2 => Brushes.LightGoldenrodYellow, // оп - светло-желтый
+                    3 => Brushes.Orange,            // уш - оранжевый
+                    4 => Brushes.LightBlue,         // ур - светло-синий
+                    5 => Brushes.LightCyan,         // от - голубой
+                    _ => Brushes.LightGreen         // ✓ - светло-зеленый
+                };
+            }
+            return Brushes.Transparent;
+        }
 
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			throw new NotImplementedException();
-		}
-	}
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
-	// Конвертер статуса в цвет текста
-	public class AttendanceStatusToForegroundConverter : IValueConverter
-	{
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			if (value is AttendanceStatus status)
-			{
-				return status switch
-				{
-					AttendanceStatus.Present => Brushes.DarkGreen,       // ✓ - темно-зеленый
-					AttendanceStatus.Absent => Brushes.DarkRed,          // н/б - темно-красный
-					AttendanceStatus.Late => Brushes.DarkGoldenrod,      // оп - темно-желтый
-					_ => Brushes.Black                                  // пусто - черный
-				};
-			}
-			return Brushes.Black;
-		}
+    public class AttendanceStatusToForegroundConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is AttendanceRecord record)
+            {
+                return record.AttendanceTypeId switch
+                {
+                    1 => Brushes.DarkRed,           // нб - темно-красный
+                    2 => Brushes.DarkGoldenrod,     // оп - темно-желтый
+                    3 => Brushes.DarkOrange,        // уш - темно-оранжевый
+                    4 => Brushes.DarkBlue,          // ур - темно-синий
+                    5 => Brushes.DarkCyan,          // от - темно-голубой
+                    _ => Brushes.DarkGreen          // ✓ - темно-зеленый
+                };
+            }
+            return Brushes.Black;
+        }
 
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			throw new NotImplementedException();
-		}
-	}
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
