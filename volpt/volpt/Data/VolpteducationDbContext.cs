@@ -52,7 +52,7 @@ public partial class VolpteducationDbContext : DbContext
 
             entity.ToTable("Attendance");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
             entity.HasOne(d => d.Lesson).WithMany(p => p.Attendances)
                 .HasForeignKey(d => d.LessonId)
@@ -83,7 +83,7 @@ public partial class VolpteducationDbContext : DbContext
 
             entity.ToTable("Grade");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Grade1).HasColumnName("Grade");
 
             entity.HasOne(d => d.Lesson).WithMany(p => p.Grades)
@@ -101,7 +101,7 @@ public partial class VolpteducationDbContext : DbContext
 
             entity.ToTable("Group");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Name).HasColumnType("character varying");
         });
 
@@ -111,7 +111,7 @@ public partial class VolpteducationDbContext : DbContext
 
             entity.ToTable("Lesson");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Classroom).HasColumnType("character varying");
             entity.Property(e => e.Comment).HasColumnType("character varying");
 
@@ -148,7 +148,7 @@ public partial class VolpteducationDbContext : DbContext
 
             entity.ToTable("Student");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.FullName).HasColumnType("character varying");
 
             entity.HasOne(d => d.Group).WithMany(p => p.Students)
@@ -162,7 +162,7 @@ public partial class VolpteducationDbContext : DbContext
 
             entity.ToTable("StudentTopic");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
             entity.HasOne(d => d.Student).WithMany(p => p.StudentTopics)
                 .HasForeignKey(d => d.StudentId)
@@ -179,7 +179,7 @@ public partial class VolpteducationDbContext : DbContext
 
             entity.ToTable("Subject");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Name).HasColumnType("character varying");
             entity.Property(e => e.TotalHours).HasColumnName("Total_hours");
         });
@@ -190,7 +190,7 @@ public partial class VolpteducationDbContext : DbContext
 
             entity.ToTable("Topic");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Homework).HasColumnType("character varying");
             entity.Property(e => e.Name).HasColumnType("character varying");
 

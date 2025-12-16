@@ -28,6 +28,7 @@ namespace volpt.MVVM.ViewModel
         private List<AttendanceType> _attendanceTypes = new();
         private List<DateTime> _allDates = new();
 
+
         private int _currentPage = 1;
         private int _totalPages;
         private DateTime? _pageStartDate;
@@ -51,6 +52,7 @@ namespace volpt.MVVM.ViewModel
 
             _ = LoadAsync();
         }
+        public List<string> GradesList { get; } = new List<string> { string.Empty, "2", "3", "4", "5" };
 
         /// <summary>
         /// Показывать ли вкладку успеваемости. Вторая вкладка вычисляется как инверсия.
@@ -216,17 +218,14 @@ namespace volpt.MVVM.ViewModel
                         .FirstOrDefault(g => g.StudentId == st.Id)
                         ?.Grade1;
 
-                    var record = new GradeRecord
+                    var record = new GradeRecord(SaveGradeAsync)
                     {
                         Date = date,
                         LessonId = lessonForDate?.Id ?? 0,
                         StudentId = st.Id,
                         Value = gradeValue?.ToString() ?? string.Empty
                     };
-
-                    // Автосохранение при изменении
-                    record.OnValueChanged = r => _ = SaveGradeAsync(r);
-
+                    record.FinishInitialization();
                     gradeRecords.Add(record);
                 }
 
@@ -289,12 +288,24 @@ namespace volpt.MVVM.ViewModel
                     record.OnStatusChanged = __ =>
                     {
                         Recalculate();
-                        _ = System.Threading.Tasks.Task.Run(() => SaveAttendanceAsync(record));
+                        _ = Task.Run(() => SaveAttendanceAsync(record));
                     };
                 }
 
                 Recalculate();
                 AttendanceStudents.Add(studentAttendance);
+            }
+        }
+        private void UpdateStudentAverage(int studentId)
+        {
+            // Находим студента в коллекции Students
+            var studentPerformance = Students.FirstOrDefault(s =>
+                s.Grades.Any(g => g.StudentId == studentId));
+
+            if (studentPerformance != null)
+            {
+                // Пересчитываем среднюю оценку
+                studentPerformance.RecalculateAverage();
             }
         }
 
@@ -337,6 +348,7 @@ namespace volpt.MVVM.ViewModel
             }
 
             await db.SaveChangesAsync();
+            UpdateStudentAverage(record.StudentId);
         }
 
         private async Task SaveAttendanceAsync(AttendanceRecord record)

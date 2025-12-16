@@ -9,15 +9,6 @@
              SnapsToDevicePixels="True"
              UseLayoutRounding="True"
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <x:Array x:Key="GradesList" Type="{x:Type sys:String}">
-            <x:Static Member="sys:String.Empty" />
-            <sys:String>2</sys:String>
-            <sys:String>3</sys:String>
-            <sys:String>4</sys:String>
-            <sys:String>5</sys:String>
-        </x:Array>
-    </UserControl.Resources>
     <Border Background="{StaticResource BackgroundLightBrush}"
             CornerRadius="8">
         <Grid>
@@ -155,11 +146,13 @@
                                                     <DataTemplate>
                                                         <Border  Height="40" Width="40" BorderThickness="0,0,1,0" BorderBrush="{StaticResource SecondaryBrush}">
                                                             <ComboBox SelectedItem="{Binding Value}"
-                                                                      ItemsSource="{Binding Source={StaticResource GradesList}}"
+                                                                      ItemsSource="{Binding DataContext.GradesList, 
+                        RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                                       BorderThickness="0"
                                                                       Background="Transparent"
                                                                       HorizontalAlignment="Center"
-                                                                      VerticalAlignment="Center"/>
+                                                                      VerticalAlignment="Center"
+                                                                     />
                                                         </Border>
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>

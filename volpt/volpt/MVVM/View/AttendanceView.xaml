@@ -156,14 +156,14 @@
                                                                 BorderThickness="0,0,1,0"
                                                                 BorderBrush="{StaticResource SecondaryBrush}"
                                                                 Padding="0"
-                                                                Background="{Binding Converter={StaticResource StatusToBrushConverter}}" 
+                                                                Background="{Binding Display, Converter={StaticResource StatusToBrushConverter}}" 
                                                                 ToolTip="{Binding ToolTipText}">
                                                             <TextBlock Text="{Binding Display}"
                                                                        HorizontalAlignment="Center"
                                                                        VerticalAlignment="Center"
                                                                        FontWeight="Bold"
                                                                        FontSize="14"
-                                                                       Foreground="{Binding Converter={StaticResource StatusToForegroundConverter}}"/>
+                                                                       Foreground="{Binding Display, Converter={StaticResource StatusToForegroundConverter}}"/>
                                                         </Button>
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>

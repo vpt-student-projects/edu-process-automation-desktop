@@ -115,16 +115,17 @@ namespace volpt.Core
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is AttendanceRecord record)
+            if (value is string display)
             {
-                return record.AttendanceTypeId switch
+                return display switch
                 {
-                    1 => Brushes.LightCoral,        // нб - светло-красный
-                    2 => Brushes.LightGoldenrodYellow, // оп - светло-желтый
-                    3 => Brushes.Orange,            // уш - оранжевый
-                    4 => Brushes.LightBlue,         // ур - светло-синий
-                    5 => Brushes.LightCyan,         // от - голубой
-                    _ => Brushes.LightGreen         // ✓ - светло-зеленый
+                    "нб" => Brushes.LightCoral,        // не был
+                    "оп" => Brushes.LightGoldenrodYellow, // опоздал
+                    "уш" => Brushes.Orange,            // ушёл раньше
+                    "ув" => Brushes.LightBlue,         // уважительная причина
+                    "от" => Brushes.LightCyan,         // отпуск
+                    "✓" => Brushes.LightGreen,        // присутствовал
+                    _ => Brushes.Transparent
                 };
             }
             return Brushes.Transparent;
@@ -140,16 +141,17 @@ namespace volpt.Core
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is AttendanceRecord record)
+            if (value is string display)
             {
-                return record.AttendanceTypeId switch
+                return display switch
                 {
-                    1 => Brushes.DarkRed,           // нб - темно-красный
-                    2 => Brushes.DarkGoldenrod,     // оп - темно-желтый
-                    3 => Brushes.DarkOrange,        // уш - темно-оранжевый
-                    4 => Brushes.DarkBlue,          // ур - темно-синий
-                    5 => Brushes.DarkCyan,          // от - темно-голубой
-                    _ => Brushes.DarkGreen          // ✓ - темно-зеленый
+                    "нб" => Brushes.DarkRed,           // не был
+                    "оп" => Brushes.DarkGoldenrod,     // опоздал
+                    "уш" => Brushes.Brown,        // ушёл раньше
+                    "ув" => Brushes.DarkBlue,          // уважительная причина
+                    "от" => Brushes.DarkCyan,          // отпуск
+                    "✓" => Brushes.DarkGreen,         // присутствовал
+                    _ => Brushes.Black
                 };
             }
             return Brushes.Black;

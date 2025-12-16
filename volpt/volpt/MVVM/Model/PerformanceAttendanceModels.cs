@@ -19,31 +19,53 @@ namespace volpt.MVVM.Model
             get => _averageGrade;
             set => SetProperty(ref _averageGrade, value);
         }
+        public void RecalculateAverage()
+        {
+            var numericGrades = Grades
+                .Select(g => int.TryParse(g.Value, out var num) ? (int?)num : null)
+                .Where(g => g.HasValue)
+                .Select(g => g.Value)
+                .ToList();
+
+            AverageGrade = numericGrades.Count > 0
+                ? Math.Round(numericGrades.Average(), 2)
+                : 0;
+        }
     }
 
     public class GradeRecord : ObservableObject
     {
         private string _value;
+        private bool _isInitializing = true; // Добавь флаг инициализации
 
         public DateTime Date { get; set; }
-
-        // Связь с сущностью оценки в БД
         public int LessonId { get; set; }
         public int StudentId { get; set; }
+        public ICommand SaveCommand { get; }
 
-        // Колбэк, который ViewModel может задать для автосохранения
-        public Action<GradeRecord> OnValueChanged { get; set; }
+        public GradeRecord(Func<GradeRecord, Task> saveAction)
+        {
+            SaveCommand = new RelayCommand(async () => await saveAction(this));
+        }
 
         public string Value
         {
             get => _value;
             set
             {
-                if (SetProperty(ref _value, value))
+                if (SetProperty(ref _value, value) && !_isInitializing)
                 {
-                    OnValueChanged?.Invoke(this);
+                    // Вызываем команду сохранения ТОЛЬКО если не инициализация
+                    if (SaveCommand.CanExecute(null))
+                        SaveCommand.Execute(null);
                 }
             }
+        }
+
+        // Метод для завершения инициализации
+        public void FinishInitialization()
+        {
+            _isInitializing = false;
         }
     }
 
@@ -117,7 +139,7 @@ namespace volpt.MVVM.Model
             1 => "нб",  // не был
             2 => "оп",  // опоздал
             3 => "уш",  // ушёл раньше
-            4 => "ур",  // уважительная причина
+            4 => "ув",  // уважительная причина
             5 => "от",  // отпуск
             _ => "✓"    // присутствовал (null или нет записи)
         };
