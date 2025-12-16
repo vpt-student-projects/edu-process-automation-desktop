@@ -103,8 +103,9 @@
                     <controls:AdaptiveUniformGrid 
                         Columns="3"
                         Rows="3"
+                        ColumnSpacing="16"
                         RowSpacing="16"
-                        ColumnSpacing="16"/>
+                        MinWidth="300" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>

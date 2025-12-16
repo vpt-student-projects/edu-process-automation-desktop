@@ -170,81 +170,48 @@
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Button Click="SubjectButton_Click"
-                                        Padding="0"
-                                        Background="Transparent"
-                                        BorderThickness="0">
-                                    <Border Margin="4" 
-                                            Padding="8"
-                                            CornerRadius="8"
-                                            Background="{StaticResource BackgroundLightBrush}"
-                                            BorderBrush="{StaticResource AccentLightBrush}"
-                                            BorderThickness="1"
-                                            ToolTip="{Binding Title}">
-                                        <Border.Effect>
-                                            <DropShadowEffect ShadowDepth="2" 
-                                                              Opacity="0.1" 
-                                                              BlurRadius="4"/>
-                                        </Border.Effect>
-
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-
-                                            <!-- Код МДК -->
-
-                                            <StackPanel Grid.Row="0"
-                                                        Orientation="Horizontal"
-                                                        HorizontalAlignment="Left"
-                                                        VerticalAlignment="Bottom">
-                                                <!--Иконка мдк-->
-                                                <TextBlock Grid.Column="0"
-                                                            Text="🎓"
-                                                            FontSize="15"
-                                                            Foreground="{StaticResource PrimaryColorBrush}"
-                                                            HorizontalAlignment="Right"
-                                                            VerticalAlignment="Top"
-                                                            Visibility="{Binding IsMdk, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                            ToolTip="МДК"/>
-                                                <!--Код-->
-                                                <TextBlock Text="{Binding Code}" 
-                                                            Style="{StaticResource H6}"
-                                                            Foreground="{StaticResource PrimaryColorBrush}"
-                                                            TextWrapping="Wrap"
-                                                            FontWeight="SemiBold"
-                                                            Visibility="{Binding Code, Converter={StaticResource CountToVisibilityConverter}}"/>
-                                                <!--Название-->
-                                                <TextBlock Text="{Binding Title}" 
-                                                            Style="{StaticResource H5}"
-                                                            TextWrapping="Wrap"
-                                                            VerticalAlignment="Center"
-                                                            Margin="0,4,0,4"
-                                                            FontSize="13"/>
-                                            </StackPanel>
-
-
-                                            <!-- Часы -->
-                                            <StackPanel Grid.Row="2"
-                                                        Orientation="Horizontal"
-                                                        HorizontalAlignment="Right"
-                                                        VerticalAlignment="Bottom">
-                                                <TextBlock Text="{Binding TotalHours}" 
-                                                           Style="{StaticResource H6}"
-                                                           Foreground="{StaticResource PrimaryColorBrush}"
-                                                           FontWeight="Bold"/>
-                                                <TextBlock Text=" ч" 
-                                                           Style="{StaticResource H6}"
-                                                           Foreground="{StaticResource PrimaryColorBrush}"
-                                                           Margin="2,0,0,0"/>
-                                            </StackPanel>
-
-                                       
-                                        </Grid>
-                                    </Border>
-                                </Button>
+                                <!-- Выглядит как текст-ссылка: при наведении подчеркивается -->
+                                <TextBlock Text="{Binding DisplayName}"
+                                           Style="{StaticResource H5}"
+                                           Foreground="{StaticResource PrimaryColorBrush}"
+                                           Cursor="Hand"
+                                           MouseLeftButtonUp="SubjectButton_Click">
+                                    <TextBlock.TextDecorations>
+                                        <TextDecorationCollection/>
+                                    </TextBlock.TextDecorations>
+                                    <TextBlock.Triggers>
+                                        <EventTrigger RoutedEvent="MouseEnter">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <!-- Подчеркивание при наведении -->
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="TextDecorations">
+                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <TextDecorationCollection>
+                                                                    <TextDecoration Location="Underline"/>
+                                                                </TextDecorationCollection>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                        <EventTrigger RoutedEvent="MouseLeave">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <!-- Убираем подчеркивание -->
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="TextDecorations">
+                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <TextDecorationCollection/>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </TextBlock.Triggers>
+                                </TextBlock>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

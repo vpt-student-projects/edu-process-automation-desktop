@@ -26,10 +26,24 @@ namespace volpt.MVVM.Model
         private string _value;
 
         public DateTime Date { get; set; }
+
+        // Связь с сущностью оценки в БД
+        public int LessonId { get; set; }
+        public int StudentId { get; set; }
+
+        // Колбэк, который ViewModel может задать для автосохранения
+        public Action<GradeRecord> OnValueChanged { get; set; }
+
         public string Value
         {
             get => _value;
-            set => SetProperty(ref _value, value);
+            set
+            {
+                if (SetProperty(ref _value, value))
+                {
+                    OnValueChanged?.Invoke(this);
+                }
+            }
         }
     }
 

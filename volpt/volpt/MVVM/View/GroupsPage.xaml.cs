@@ -9,7 +9,7 @@ namespace volpt.MVVM.View
     public partial class GroupsPage : Page
     {
         private GroupViewModel _viewModel;
-        private int _userId;
+        private readonly int _userId;
 
         public GroupsPage() : this(0)
         {
@@ -20,8 +20,8 @@ namespace volpt.MVVM.View
             InitializeComponent();
             _userId = userId;
 
-            // Создаем ViewModel
-            _viewModel = new GroupViewModel();
+            // Создаем ViewModel с учетом текущего пользователя
+            _viewModel = new GroupViewModel(_userId);
             DataContext = _viewModel;
         }
     }

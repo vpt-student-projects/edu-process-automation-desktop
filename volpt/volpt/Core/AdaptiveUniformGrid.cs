@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 
@@ -17,7 +14,7 @@ namespace volpt.Core
 		}
 		public static readonly DependencyProperty RowSpacingProperty =
 			DependencyProperty.Register(nameof(RowSpacing), typeof(double), typeof(AdaptiveUniformGrid),
-				new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
+				new FrameworkPropertyMetadata(12.0, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
 
 		public double ColumnSpacing
 		{
@@ -26,21 +23,43 @@ namespace volpt.Core
 		}
 		public static readonly DependencyProperty ColumnSpacingProperty =
 			DependencyProperty.Register(nameof(ColumnSpacing), typeof(double), typeof(AdaptiveUniformGrid),
-				new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
+				new FrameworkPropertyMetadata(12.0, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
 
-		protected override Size ArrangeOverride(Size finalSize)
+		// Минимальная ширина карточки
+		public double MinCardWidth
 		{
+			get => (double)GetValue(MinCardWidthProperty);
+			set => SetValue(MinCardWidthProperty, value);
+		}
+		public static readonly DependencyProperty MinCardWidthProperty =
+			DependencyProperty.Register(nameof(MinCardWidth), typeof(double), typeof(AdaptiveUniformGrid),
+				new FrameworkPropertyMetadata(280.0, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
+
+		// Использовать ли единую высоту для всех карточек
+		public bool UniformRowHeight
+		{
+			get => (bool)GetValue(UniformRowHeightProperty);
+			set => SetValue(UniformRowHeightProperty, value);
+		}
+		public static readonly DependencyProperty UniformRowHeightProperty =
+			DependencyProperty.Register(nameof(UniformRowHeight), typeof(bool), typeof(AdaptiveUniformGrid),
+				new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
+
+		private List<double> _rowHeights = new List<double>();
+
+		protected override Size MeasureOverride(Size constraint)
+		{
+			int childrenCount = InternalChildren.Count;
+			if (childrenCount == 0)
+				return new Size(0, 0);
+
 			int rows = Rows;
 			int cols = Columns;
-			int childrenCount = InternalChildren.Count;
 
-			if (childrenCount == 0)
-				return finalSize;
-
-			// автоподбор строк и столбцов
+			// Автоподбор колонок
 			if (rows == 0 && cols == 0)
 			{
-				cols = (int)Math.Ceiling(Math.Sqrt(childrenCount));
+				cols = CalculateOptimalColumns(constraint.Width);
 				rows = (int)Math.Ceiling((double)childrenCount / cols);
 			}
 			else if (rows == 0)
@@ -52,51 +71,142 @@ namespace volpt.Core
 				cols = (int)Math.Ceiling((double)childrenCount / rows);
 			}
 
-			// Учитываем spacing в общей ширине и высоте
-			double totalColumnSpacing = (cols - 1) * ColumnSpacing;
-			double totalRowSpacing = (rows - 1) * RowSpacing;
+			// Рассчитываем ширину ячейки
+			double totalColumnSpacing = Math.Max(0, cols - 1) * ColumnSpacing;
+			double availableWidth = Math.Max(0, constraint.Width - totalColumnSpacing);
+			double cellWidth = Math.Max(MinCardWidth, availableWidth / cols);
 
-			double cellWidth = Math.Max((finalSize.Width - totalColumnSpacing) / cols, 300);
+			// Очищаем список высот
+			_rowHeights.Clear();
 
-			// Рассчитываем высоту на основе максимального количества пар
-			double cellHeight = CalculateAdaptiveCardHeight(finalSize.Height, totalRowSpacing, rows);
+			double totalHeight = 0;
+			int currentRow = 0;
 
-			int index = 0;
-			for (int r = 0; r < rows; r++)
+			// Измеряем каждую карточку и собираем высоты по строкам
+			for (int i = 0; i < childrenCount; i++)
 			{
-				for (int c = 0; c < cols; c++)
+				var child = InternalChildren[i];
+				if (child != null)
 				{
-					if (index >= InternalChildren.Count)
+					// Измеряем карточку с текущей шириной
+					child.Measure(new Size(cellWidth, double.PositiveInfinity));
+					double childHeight = child.DesiredSize.Height;
+
+					// Определяем строку для этой карточки
+					int row = i / cols;
+
+					// Если это новая строка, добавляем ее высоту
+					if (row >= _rowHeights.Count)
+					{
+						_rowHeights.Add(childHeight);
+					}
+					else
+					{
+						// Ищем максимальную высоту в строке
+						_rowHeights[row] = Math.Max(_rowHeights[row], childHeight);
+					}
+				}
+			}
+
+			// Суммируем высоты всех строк с учетом отступов
+			for (int r = 0; r < _rowHeights.Count; r++)
+			{
+				totalHeight += _rowHeights[r];
+				if (r > 0) totalHeight += RowSpacing;
+			}
+
+			return new Size(
+				Math.Min(cols * cellWidth + totalColumnSpacing, constraint.Width),
+				Math.Min(totalHeight, constraint.Height)
+			);
+		}
+
+		protected override Size ArrangeOverride(Size finalSize)
+		{
+			int childrenCount = InternalChildren.Count;
+			if (childrenCount == 0)
+				return finalSize;
+
+			int rows = Rows;
+			int cols = Columns;
+
+			// Автоподбор колонок
+			if (rows == 0 && cols == 0)
+			{
+				cols = CalculateOptimalColumns(finalSize.Width);
+				rows = (int)Math.Ceiling((double)childrenCount / cols);
+			}
+			else if (rows == 0)
+			{
+				rows = (int)Math.Ceiling((double)childrenCount / cols);
+			}
+			else if (cols == 0)
+			{
+				cols = (int)Math.Ceiling((double)childrenCount / rows);
+			}
+
+			// Рассчитываем ширину ячейки
+			double totalColumnSpacing = Math.Max(0, cols - 1) * ColumnSpacing;
+			double availableWidth = Math.Max(0, finalSize.Width - totalColumnSpacing);
+			double cellWidth = Math.Max(MinCardWidth, availableWidth / cols);
+
+			// Располагаем элементы
+			int index = 0;
+			double currentY = 0;
+
+			for (int row = 0; row < rows; row++)
+			{
+				double rowHeight = 0;
+				if (UniformRowHeight)
+				{
+					// Находим максимальную высоту в строке
+					for (int i = row * cols; i < Math.Min((row + 1) * cols, childrenCount); i++)
+					{
+						if (i < InternalChildren.Count && InternalChildren[i] != null)
+						{
+							rowHeight = Math.Max(rowHeight, InternalChildren[i].DesiredSize.Height);
+						}
+					}
+				}
+				else if (row < _rowHeights.Count)
+				{
+					rowHeight = _rowHeights[row];
+				}
+
+				double currentX = 0;
+
+				for (int col = 0; col < cols; col++)
+				{
+					if (index >= childrenCount)
 						break;
 
 					var child = InternalChildren[index++];
-					if (child == null) continue;
+					if (child == null)
+						continue;
 
-					double x = c * (cellWidth + ColumnSpacing);
-					double y = r * (cellHeight + RowSpacing);
+					// Высота карточки
+					double childHeight = UniformRowHeight ? rowHeight : child.DesiredSize.Height;
 
-					child.Arrange(new Rect(x, y, cellWidth, cellHeight));
+					// Располагаем карточку
+					child.Arrange(new Rect(currentX, currentY, cellWidth, childHeight));
+
+					currentX += cellWidth + ColumnSpacing;
 				}
+
+				currentY += rowHeight + (row < rows - 1 ? RowSpacing : 0);
 			}
 
 			return finalSize;
 		}
 
-		private double CalculateAdaptiveCardHeight(double totalHeight, double totalRowSpacing, int rows)
+		private int CalculateOptimalColumns(double availableWidth)
 		{
-			if (rows == 0) return 0;
+			// Рассчитываем максимальное количество колонок
+			double requiredWidth = MinCardWidth + ColumnSpacing;
+			int maxColumns = Math.Max(1, (int)Math.Floor((availableWidth + ColumnSpacing) / requiredWidth));
 
-			// Базовая высота на строку
-			double baseHeightPerRow = (totalHeight - totalRowSpacing) / rows;
-
-			// Минимальная высота карточки
-			double minCardHeight = 200;
-
-			// Максимальная высота карточки (чтобы не выходила за пределы)
-			double maxCardHeight = totalHeight - totalRowSpacing;
-
-			// Возвращаем высоту, но не меньше минимальной
-			return Math.Max(baseHeightPerRow, minCardHeight);
+			// Ограничиваем разумным максимумом
+			return Math.Min(maxColumns, 3);
 		}
 	}
 }

@@ -43,10 +43,11 @@ namespace volpt.MVVM.View
             if (DataContext is not GroupModel group)
                 return;
 
-            if (sender is not Button button || button.DataContext is not SubjectModel subject)
-                return;
-
-            NavigationHelper.NavigateToJournal(group.Id, subject.Id);
+            // Работает с любым элементом (TextBlock, Button и т.д.)
+            if (sender is FrameworkElement element && element.DataContext is SubjectModel subject)
+            {
+                NavigationHelper.NavigateToJournal(group.Id, subject.Id);
+            }
         }
     }
 }

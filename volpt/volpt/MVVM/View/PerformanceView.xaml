@@ -18,194 +18,193 @@
             <sys:String>5</sys:String>
         </x:Array>
     </UserControl.Resources>
-    <Grid Background="{StaticResource BackgroundLightBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-
-        <!-- Панель навигации -->
-        <Border Grid.Row="0" 
-                Background="{StaticResource PrimaryColorBrush}"
-                Padding="10,5"
-                CornerRadius="5,5,0,0">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="← Назад" 
-                        Command="{Binding PrevPageCommand}"
-                        Style="{StaticResource MainButtonStyle}"
-                        MinWidth="80"/>
-
-                <TextBlock Text="{Binding CurrentPage, StringFormat='Страница {0}'}"
-                           VerticalAlignment="Center"
-                           Margin="20,0"
-                           Style="{StaticResource H5}"
-                           Foreground="White"/>
-
-                <TextBlock Text="{Binding TotalPages, StringFormat='из {0}'}"
-                           VerticalAlignment="Center"
-                           Style="{StaticResource H5}"
-                           Foreground="White"/>
-
-                <Button Content="Вперед →" 
-                        Command="{Binding NextPageCommand}"
-                        Style="{StaticResource MainButtonStyle}"
-                        MinWidth="80"
-                        Margin="20,0,0,0"/>
-            </StackPanel>
-        </Border>
-
-        <!-- Основная таблица -->
-        <Grid Grid.Row="1">
+    <Border Background="{StaticResource BackgroundLightBrush}"
+            CornerRadius="8">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- Заголовки таблицы -->
-            <Grid Grid.Row="0" Height="40">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200" MinWidth="150"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="80" MinWidth="70"/>
-                </Grid.ColumnDefinitions>
+            <!-- Панель навигации по страницам (18 дней) -->
+            <Border Grid.Row="0" Padding="8,4">
+                <Grid>
+                    <Button Content="← Назад" HorizontalAlignment="Left"
+                            Command="{Binding PrevPageCommand}"
+                            Style="{StaticResource MainButtonStyle}"
+                            MinWidth="80"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding CurrentPage, StringFormat='Страница {0}'}"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Margin="4,0"
+                                   Style="{StaticResource H5}"
+                                   Foreground="{StaticResource SecondaryBrush}"/>
 
-                <Border Grid.Column="0" 
-                        BorderBrush="{StaticResource PrimaryColorBrush}" 
-                        BorderThickness="0,0,1,1">
-                    <TextBlock Text="Студент" 
-                               Style="{StaticResource H5}"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Center"
-                               FontWeight="Bold"/>
-                </Border>
+                        <TextBlock Text="{Binding TotalPages, StringFormat='из {0}'}"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Style="{StaticResource H5}"
+                                     Foreground="{StaticResource SecondaryBrush}"/>
+                    </StackPanel>
 
-                <!-- Даты (фиксированная ширина, без скролла) -->
-                <ItemsControl Grid.Column="1" ItemsSource="{Binding Dates}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="40" 
-                                    BorderBrush="{StaticResource PrimaryColorBrush}" 
-                                    BorderThickness="0,0,1,1" >
-                                <TextBlock Text="{Binding StringFormat='dd.MM'}" 
+                    <Button Content="Вперед →"
+                            Command="{Binding NextPageCommand}"
+                            Style="{StaticResource MainButtonStyle}"
+                            HorizontalAlignment="Right"
+                            MinWidth="80"
+                            Margin="20,0,0,0"/>
+                </Grid>
+            </Border>
+
+            <!-- Основная таблица -->
+            <Border Grid.Row="1" 
+                    BorderBrush="{StaticResource SecondaryBrush}" 
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Background="White"
+                    Margin="8">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!-- Заголовки таблицы -->
+                    <Border Grid.Row="0" 
+                            BorderBrush="{StaticResource SecondaryBrush}" 
+                            BorderThickness="0,0,0,1"
+                            Background="{StaticResource BackgroundLightBrush}">
+                        <Grid>
+                            <Border Width="200" HorizontalAlignment="Left"
+                                    BorderBrush="{StaticResource SecondaryBrush}" 
+                                    BorderThickness="0,0,1,0">
+                                <TextBlock Text="Студент" 
                                            Style="{StaticResource H6}"
-                                           HorizontalAlignment="Center" 
                                            VerticalAlignment="Center"
-                                           Padding="2,16"
-                                           TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5">
-                                    <TextBlock.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform/>
-                                            <SkewTransform/>
-                                            <RotateTransform Angle="-90"/>
-                                            <TranslateTransform/>
-                                        </TransformGroup>
-                                    </TextBlock.RenderTransform>
-                                </TextBlock>
+                                           HorizontalAlignment="Center"
+                                           FontWeight="Bold"/>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" 
-                                       MaxWidth="720"/>
-                            <!-- 18*40 = 720 -->
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
 
-                <Border Grid.Column="2" 
-                        BorderBrush="{StaticResource PrimaryColorBrush}" 
-                        BorderThickness="0,0,0,1">
-                    <TextBlock Text="Средняя" 
-                               Style="{StaticResource H5}"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Center"
-                               FontWeight="Bold"/>
-                </Border>
-            </Grid>
-
-            <!-- Тело таблицы -->
-            <ScrollViewer Grid.Row="1" 
-                          VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Hidden">
-                <ItemsControl ItemsSource="{Binding Students}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Height="40">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="200"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="80"/>
-                                </Grid.ColumnDefinitions>
-
-                                <!-- Имя студента -->
-                                <Border Grid.Column="0" 
-                                        BorderBrush="{StaticResource PrimaryColorBrush}" 
-                                        BorderThickness="0,0,1,0">
-                                    <TextBlock Text="{Binding FullName}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Left"
-                                               Margin="5"/>
-                                </Border>
-
-                                <!-- Оценки -->
-                                <ItemsControl Grid.Column="1" 
-                                              ItemsSource="{Binding Grades}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border Width="40" 
-                                                    BorderBrush="{StaticResource PrimaryColorBrush}" 
-                                                    BorderThickness="0,0,1,0"
-                                                    Padding="2">
-                                                <ComboBox SelectedItem="{Binding Value}"
-                                                          ItemsSource="{Binding Source={StaticResource GradesList}}"
-                                                          BorderThickness="0"
-                                                          Background="Transparent"
-                                                          HorizontalAlignment="Stretch"
-                                                          VerticalAlignment="Center"/>
+                            <!-- Даты-->
+                            <ItemsControl Margin="200,0,0,0" ItemsSource="{Binding Dates}" HorizontalAlignment="Left">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Width="40"
+                                                BorderBrush="{StaticResource SecondaryBrush}" 
+                                                BorderThickness="0,0,1,0" Height="40" >
+                                            <TextBlock Text="{Binding StringFormat='dd.MM'}" 
+                                                       Style="{StaticResource H6}"
+                                                       HorizontalAlignment="Center" 
+                                                       VerticalAlignment="Center"
+                                                       RenderTransformOrigin="0.5,0.5">
+                                                <TextBlock.RenderTransform>
+                                                    <TransformGroup>
+                                                        <RotateTransform Angle="-90"/>
+                                                    </TransformGroup>
+                                                </TextBlock.RenderTransform>
+                                            </TextBlock>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                        <!-- 18*40 = 720 -->
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                            <!-- третья колонка с ср -->
+                            <Border Width="77" 
+                                    HorizontalAlignment="Right"
+                                    BorderBrush="{StaticResource SecondaryBrush}" 
+                                    BorderThickness="1,0,0,0">
+                                <TextBlock Text="Средняя оценка" 
+                                       Style="{StaticResource H6}"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <!-- Тело таблицы -->
+                    <ScrollViewer Grid.Row="1" 
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Hidden"
+                                  Style="{StaticResource CustomScrollViewerStyle}">
+                        <ItemsControl ItemsSource="{Binding Students}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="{StaticResource SecondaryBrush}" 
+                                            BorderThickness="0,0,0,1"
+                                            Height="40">
+                                        <Grid>
+                                            <!-- Имя студента -->
+                                            <Border Width="200" BorderThickness="0,0,1,0" BorderBrush="{StaticResource SecondaryBrush}"
+                                                    HorizontalAlignment="Left">
+                                                <TextBlock Text="{Binding FullName}"
+                                                           Style="{StaticResource H6}"
+                                                           VerticalAlignment="Center"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="5"/>
                                             </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel Orientation="Horizontal" 
-                                                       MaxWidth="720"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                </ItemsControl>
 
-                                <!-- Средняя оценка -->
-                                <Border Grid.Column="2" 
-                                        BorderBrush="{StaticResource PrimaryColorBrush}" 
-                                        BorderThickness="0,0,0,0">
-                                    <TextBlock Text="{Binding AverageGrade, StringFormat='0.00'}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Center"
-                                               FontWeight="Bold"
-                                               Foreground="{StaticResource AccentLightBrush}"/>
-                                </Border>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+                                            <!-- Оценки -->
+                                            <ItemsControl ItemsSource="{Binding Grades}" 
+                                                          HorizontalAlignment="Left"
+                                                          Margin="200,0,0,0">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border  Height="40" Width="40" BorderThickness="0,0,1,0" BorderBrush="{StaticResource SecondaryBrush}">
+                                                            <ComboBox SelectedItem="{Binding Value}"
+                                                                      ItemsSource="{Binding Source={StaticResource GradesList}}"
+                                                                      BorderThickness="0"
+                                                                      Background="Transparent"
+                                                                      HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"/>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel Orientation="Horizontal"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                            </ItemsControl>
+
+                                            <!-- Средняя оценка -->
+                                            <Border Width="60"
+                                                    HorizontalAlignment="Right"
+                                                    BorderBrush="{StaticResource SecondaryBrush}" 
+                                                    BorderThickness="1,0,0,0"
+                                                    Height="40">
+                                                <TextBlock Text="{Binding AverageGrade, StringFormat='0.00'}"
+                                                           Style="{StaticResource H6}"
+                                                           VerticalAlignment="Center"
+                                                           HorizontalAlignment="Right"
+                                                           Margin="0,0,5,0"
+                                                           Foreground="{StaticResource PrimaryColorBrush}"
+                                                           FontWeight="Bold"/>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <!-- Информация о диапазоне дат текущей страницы -->
+            <Border Grid.Row="2" 
+                    Padding="4">
+                <TextBlock HorizontalAlignment="Center"
+                           Style="{StaticResource H6}"
+                           Foreground="{StaticResource SecondaryBrush}">
+                    <Run Text="Показаны даты с "/>
+                    <Run Text="{Binding PageStartDate, StringFormat='{}{0:dd.MM.yyyy}'}"/>
+                    <Run Text=" по "/>
+                    <Run Text="{Binding PageEndDate, StringFormat='{}{0:dd.MM.yyyy}'}"/>
+                </TextBlock>
+            </Border>
         </Grid>
-
-        <!-- Информация о странице -->
-        <Border Grid.Row="2" 
-                Background="{StaticResource BackgroundLightBrush}"
-                BorderBrush="{StaticResource PrimaryColorBrush}"
-                BorderThickness="0,1,0,0"
-                Padding="10">
-            <TextBlock HorizontalAlignment="Center"
-                       Style="{StaticResource H6}"
-                       Foreground="{StaticResource SecondaryBrush}">
-                <Run Text="Показаны даты с "/>
-                <Run Text="{Binding Dates[0], StringFormat='{}{0:dd.MM.yyyy}'}"/>
-                <Run Text=" по "/>
-                <Run Text="{Binding Dates[17], StringFormat='{}{0:dd.MM.yyyy}'}"/>
-            </TextBlock>
-        </Border>
-    </Grid>
+    </Border>
 </UserControl>

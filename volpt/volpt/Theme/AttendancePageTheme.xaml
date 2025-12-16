@@ -61,47 +61,32 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="AttendanceToggleButton" TargetType="ToggleButton">
-        <Setter Property="Background" Value="LightGray"/>
-        <Setter Property="Foreground" Value="Black"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="BorderBrush" Value="DarkGray"/>
+    <!-- Стиль ячейки посещаемости, используемой в AttendanceView -->
+    <Style x:Key="AttendanceCellStyle" TargetType="Button">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ToggleButton">
-                    <Border Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="3">
-                        <ContentPresenter HorizontalAlignment="Center" 
-                                      VerticalAlignment="Center"/>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="4">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Margin="{TemplateBinding Padding}"/>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <!-- Первое нажатие: н/б (не был) -->
-                        <Trigger Property="IsChecked" Value="False">
-                            <Setter Property="Background" Value="LightCoral"/>
-                            <Setter Property="Content" Value="н/б"/>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Opacity" Value="0.9"/>
                         </Trigger>
-
-                        <!-- Второе нажатие: оп (опоздал) -->
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="True"/>
-                                <Condition Property="Tag" Value="{x:Null}"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="Gold"/>
-                            <Setter Property="Content" Value="оп"/>
-                        </MultiTrigger>
-
-                        <!-- Третье нажатие: сброс -->
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="True"/>
-                                <Condition Property="Tag" Value="оп"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="LightGreen"/>
-                            <Setter Property="Content" Value="✓"/>
-                        </MultiTrigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Opacity" Value="0.8"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

@@ -41,14 +41,13 @@
                 </ItemsControl>
 
                 <!-- Если нет занятий -->
-                <TextBlock Text="Нет занятий" 
+                <TextBlock Text="Нет занятий" Padding="50"
                           Style="{StaticResource H5}"
                           Foreground="{StaticResource SecondaryBrush}"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
                           Visibility="{Binding Lessons.Count, Converter={StaticResource InverseCountToVisibilityConverter}}"/>
             </Grid>
-
         </Grid>
     </Border>
 </UserControl>

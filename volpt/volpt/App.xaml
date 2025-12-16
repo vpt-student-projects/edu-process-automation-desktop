@@ -29,7 +29,9 @@
             <core:LessonSlotToBackgroundConverter x:Key="LessonSlotToBackgroundConverter"/>
             <core:LessonSlotToBorderBrushConverter x:Key="LessonSlotToBorderBrushConverter"/>
             <core:LessonSlotToOpacityConverter x:Key="LessonSlotToOpacityConverter"/>
-            
+            <core:AttendanceStatusToBrushConverter x:Key="StatusToBrushConverter"/>
+            <core:AttendanceStatusToForegroundConverter x:Key="StatusToForegroundConverter"/>
+
             <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         </ResourceDictionary>
     </Application.Resources>

@@ -16,8 +16,7 @@ namespace volpt.MVVM.ViewModel
 	public class ScheduleViewModel : INotifyPropertyChanged
 	{
 		private DateTime _currentWeekStart;
-		private DateTime _today = DateTime.Today;
-		private int _userId;
+		private readonly int _userId;
 
 		public ScheduleViewModel(int userId)
 		{
@@ -72,14 +71,14 @@ namespace volpt.MVVM.ViewModel
 		{
 			_currentWeekStart = _currentWeekStart.AddDays(-7);
 			UpdateWeekInfo();
-			LoadUserSchedule();
+			_ = LoadUserScheduleAsync();
 		}
 
 		private void NextWeek()
 		{
 			_currentWeekStart = _currentWeekStart.AddDays(7);
 			UpdateWeekInfo();
-			LoadUserSchedule();
+			_ = LoadUserScheduleAsync();
 		}
 
 		private void GoToCurrentWeek()
@@ -92,7 +91,7 @@ namespace volpt.MVVM.ViewModel
 				: GetStartOfWeek(today);
 
 			UpdateWeekInfo();
-			LoadUserSchedule();
+			_ = LoadUserScheduleAsync();
 		}
 
 		private void UpdateWeekInfo()
@@ -115,25 +114,23 @@ namespace volpt.MVVM.ViewModel
 			return date.AddDays(-1 * diff).Date;
 		}
 
-		// Остальные методы остаются без изменений
-		public void LoadUserSchedule()
+		private async Task LoadUserScheduleAsync()
 		{
-			using var db = new VolpteducationDbContext();
-
-			// Загружаем расписание преподавателя на выбранную неделю
+			// Даты текущей недели
 			var weekDates = Enumerable.Range(0, 6)
 				.Select(i => DateOnly.FromDateTime(_currentWeekStart.AddDays(i)))
 				.ToList();
 
-			var lessons = db.Lessons
+			using var db = new VolpteducationDbContext();
+
+			var lessons = await db.Lessons
 				.Include(l => l.Subject)
 				.Include(l => l.Group)
 				.Include(l => l.User)
-				.Where(l => l.UserId == _userId &&
-						   weekDates.Contains(l.Date))
+				.Where(l => l.UserId == _userId && weekDates.Contains(l.Date))
 				.OrderBy(l => l.Date)
 				.ThenBy(l => l.Number)
-				.ToList();
+				.ToListAsync();
 
 			// Создаем расписание на всю неделю
 			Schedule = weekDates.Select(date => new DaySchedule

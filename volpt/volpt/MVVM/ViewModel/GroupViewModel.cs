@@ -16,6 +16,7 @@ namespace volpt.MVVM.ViewModel
     {
         private ObservableCollection<GroupModel> _groups;
         private bool _isLoading;
+        private readonly int _userId;
 
         public ObservableCollection<GroupModel> Groups
         {
@@ -35,8 +36,9 @@ namespace volpt.MVVM.ViewModel
         public ICommand ViewStudentsCommand { get; }
         public ICommand RefreshCommand { get; }
 
-        public GroupViewModel()
+        public GroupViewModel(int userId)
         {
+            _userId = userId;
             Groups = new ObservableCollection<GroupModel>();
 
             // Инициализация команд
@@ -51,44 +53,53 @@ namespace volpt.MVVM.ViewModel
 
         public void LoadGroups()
         {
+            // Не блокируем UI‑поток, запускаем асинхронную загрузку
+            _ = LoadGroupsAsync();
+        }
+
+        private async Task LoadGroupsAsync()
+        {
             IsLoading = true;
             Groups.Clear();
 
-            // Загружаем асинхронно
-            Task.Run(async () =>
+            try
             {
-                try
+                await LoadGroupsFromDatabaseAsync();
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибки в UI потоке
+                await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
-                    await LoadGroupsFromDatabaseAsync();
-                }
-                catch (Exception ex)
+                    MessageBox.Show($"Ошибка загрузки групп: {ex.Message}",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                });
+            }
+            finally
+            {
+                await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
-                    // Обработка ошибки в UI потоке
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        MessageBox.Show($"Ошибка загрузки групп: {ex.Message}",
-                            "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    });
-                }
-                finally
-                {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        IsLoading = false;
-                    });
-                }
-            });
+                    IsLoading = false;
+                });
+            }
         }
 
         private async Task LoadGroupsFromDatabaseAsync()
         {
             using var context = new VolpteducationDbContext();
 
-            // Загружаем группы со студентами, занятиями и предметами
-            var groups = await context.Groups
-                .Include(g => g.Students)
-                .Include(g => g.Lessons)
-                    .ThenInclude(l => l.Subject)
+            // Загружаем только те группы, в которых текущий преподаватель ведет предметы
+            var groups = await context.UserGroupSubject
+                .Where(ugs => ugs.UserId == _userId)
+                .Select(ugs => ugs.GroupId)
+                .Distinct()
+                .Join(context.Groups
+                        .Include(g => g.Students)
+                        .Include(g => g.Lessons)
+                            .ThenInclude(l => l.Subject),
+                      id => id,
+                      g => g.Id,
+                      (id, g) => g)
                 .ToListAsync();
 
             // Обрабатываем в UI потоке
@@ -106,11 +117,11 @@ namespace volpt.MVVM.ViewModel
                         IsExpanded = false // По умолчанию все группы свернуты
                     };
 
-                    // Получаем уникальные предметы из занятий группы
+                    // Получаем уникальные предметы из занятий группы, которые ведет текущий преподаватель
                     if (group.Lessons != null && group.Lessons.Any())
                     {
                         var uniqueSubjects = group.Lessons
-                            .Where(l => l.Subject != null)
+                            .Where(l => l.Subject != null && l.UserId == _userId)
                             .Select(l => l.Subject)
                             .GroupBy(s => s.Id)
                             .Select(g => g.First())
