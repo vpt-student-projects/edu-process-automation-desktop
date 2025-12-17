@@ -33,10 +33,9 @@ namespace volpt.AuthService
             return user;
         }
 
-        // 2. АВТОМАТИЧЕСКИЙ ВХОД (при запуске приложения)
         public async Task<User> AutoLoginAsync()
         {
-            // Загружаем токен из локального хранилища
+
             var savedToken = LoadTokenFromStorage();
             if (string.IsNullOrEmpty(savedToken))
                 return null;
