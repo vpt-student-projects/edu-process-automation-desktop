@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:volpt"
              xmlns:vm="clr-namespace:volpt.MVVM.ViewModel"
              StartupUri="LoginWindow.xaml"
-             xmlns:core="clr-namespace:volpt.Core">
+             xmlns:core="clr-namespace:volpt.Converters">
     <Application.Resources>
 
         <ResourceDictionary>
