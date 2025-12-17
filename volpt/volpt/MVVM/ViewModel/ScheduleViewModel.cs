@@ -79,7 +79,7 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при переходе на предыдущую неделю", ex);
+                HandleError("Ошибка при переходе на предыдущую неделю");
             }
         }
 
@@ -93,7 +93,7 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при переходе на следующую неделю", ex);
+                HandleError("Ошибка при переходе на следующую неделю");
             }
         }
 
@@ -111,7 +111,7 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при переходе к текущей неделе", ex);
+                HandleError("Ошибка при переходе к текущей неделе");
             }
         }
 
@@ -132,7 +132,7 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при обновлении информации о неделе", ex);
+                HandleError("Ошибка при обновлении информации о неделе");
                 WeekDisplay = "Ошибка";
                 IsCurrentWeek = false;
             }
@@ -147,7 +147,7 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при расчете начала недели", ex);
+                HandleError("Ошибка при расчете начала недели");
                 return date.Date;
             }
         }
@@ -197,17 +197,17 @@ namespace volpt.MVVM.ViewModel
             }
             catch (DbUpdateException dbEx)
             {
-                HandleError("Ошибка обновления базы данных при загрузке расписания", dbEx);
+                HandleError("Ошибка обновления базы данных при загрузке расписания");
                 Schedule = CreateEmptySchedule();
             }
             catch (InvalidOperationException invEx)
             {
-                HandleError("Ошибка операции с базой данных при загрузке расписания", invEx);
+                HandleError("Ошибка операции с базой данных при загрузке расписания");
                 Schedule = CreateEmptySchedule();
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при загрузке расписания", ex);
+                HandleError("Ошибка при загрузке расписания");
                 Schedule = CreateEmptySchedule();
             }
         }
@@ -229,7 +229,7 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при создании пустого расписания", ex);
+                HandleError("Ошибка при создании пустого расписания");
                 return new List<DaySchedule>();
             }
         }
@@ -251,7 +251,7 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при определении времени занятия", ex);
+                HandleError("Ошибка при определении времени занятия");
                 return "Ошибка";
             }
         }
@@ -273,45 +273,29 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при определении дня недели", ex);
+                HandleError("Ошибка при определении дня недели");
                 return "Ошибка";
             }
         }
 
-        private void HandleError(string message, Exception ex)
+        private void HandleError(string message)
         {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    MessageBox.Show($"{message}: {ex.Message}", "Ошибка",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
-                });
-            LogErrorToFile(message, ex);
-          
+
+
+            Application.Current?.Dispatcher?.Invoke(() =>
+            {
+
+                MessageBox.Show(
+                        $"{message}\n",
+                        "Ошибка",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+
+            });
+
         }
 
-        private void LogErrorToFile(string message, Exception ex)
-        {
-            try
-            {
-                string logMessage = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}\n" +
-                                   $"Exception: {ex.GetType().Name}\n" +
-                                   $"Message: {ex.Message}\n" +
-                                   $"Stack Trace: {ex.StackTrace}\n" +
-                                   "--------------------------------------------------\n";
-
-                string logFilePath = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                    "VolptEducation",
-                    "error_log.txt");
-
-                Directory.CreateDirectory(Path.GetDirectoryName(logFilePath));
-                File.AppendAllText(logFilePath, logMessage);
-            }
-            catch
-            {
-                // Если не удалось записать в файл, игнорируем эту ошибку
-            }
-        }
+       
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName = null)
@@ -322,7 +306,7 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при обновлении свойства", ex);
+                HandleError("Ошибка при обновлении свойства");
             }
         }
     }

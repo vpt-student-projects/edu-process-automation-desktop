@@ -52,7 +52,7 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при инициализации GroupViewModel", ex);
+                HandleError("Ошибка при инициализации GroupViewModel");
                 Groups = new ObservableCollection<GroupModel>();
             }
         }
@@ -65,7 +65,7 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при запуске загрузки групп", ex);
+                HandleError("Ошибка при запуске загрузки групп");
             }
         }
 
@@ -82,7 +82,7 @@ namespace volpt.MVVM.ViewModel
            
             catch (Exception ex)
             {
-                HandleError("Ошибка при подготовке к загрузке групп", ex);
+                HandleError("Ошибка при подготовке к загрузке групп");
                 return;
             }
 
@@ -92,15 +92,15 @@ namespace volpt.MVVM.ViewModel
             }
             catch (DbUpdateException dbEx)
             {
-                HandleError("Ошибка обновления базы данных при загрузке групп", dbEx);
+                HandleError("Ошибка обновления базы данных при загрузке групп");
             }
             catch (InvalidOperationException ioEx)
             {
-                HandleError("Ошибка операции с базой данных", ioEx);
+                HandleError("Ошибка операции с базой данных");
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка загрузки групп", ex);
+                HandleError("Ошибка загрузки групп");
             }
             finally
             {
@@ -170,7 +170,7 @@ namespace volpt.MVVM.ViewModel
                                         }
                                         catch (Exception subjectEx)
                                         {
-                                            HandleError($"Ошибка при обработке предмета '{subject?.Name}' для группы '{group.Name}'", subjectEx);
+                                            HandleError($"Ошибка при обработке предмета '{subject?.Name}' для группы '{group.Name}'");
                                             groupModel.Subjects.Add(new SubjectModel
                                             {
                                                 Id = subject?.Id ?? 0,
@@ -186,20 +186,20 @@ namespace volpt.MVVM.ViewModel
                             }
                             catch (Exception groupEx)
                             {
-                                HandleError($"Ошибка при создании модели для группы '{group?.Name}'", groupEx);
+                                HandleError($"Ошибка при создании модели для группы '{group?.Name}'");
                                 continue;
                             }
                         }
                     }
                     catch (Exception uiEx)
                     {
-                        throw new InvalidOperationException("Ошибка при обработке данных в UI потоке", uiEx);
+                        throw new InvalidOperationException("Ошибка при обработке данных в UI потоке");
                     }
                 });
             }
             catch (ArgumentNullException anEx)
             {
-                throw new InvalidOperationException("Ошибка данных: отсутствуют необходимые данные", anEx);
+                throw new InvalidOperationException("Ошибка данных: отсутствуют необходимые данные");
             }
         }
         private void ToggleGroup(GroupModel group)
@@ -213,7 +213,7 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при переключении состояния группы", ex);
+                HandleError("Ошибка при переключении состояния группы");
             }
         }
         private void ViewGroupSchedule(GroupModel group)
@@ -228,7 +228,7 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError($"Ошибка при открытии расписания группы {group?.Name}", ex);
+                HandleError($"Ошибка при открытии расписания группы {group?.Name}");
             }
         }
         private void ViewGroupStudents(GroupModel group)
@@ -243,7 +243,7 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError($"Ошибка при открытии списка студентов группы {group?.Name}", ex);
+                HandleError($"Ошибка при открытии списка студентов группы {group?.Name}");
             }
         }
 
@@ -265,19 +265,12 @@ namespace volpt.MVVM.ViewModel
 
                 foreach (var pattern in patterns)
                 {
-                    try
-                    {
                         var match = System.Text.RegularExpressions.Regex.Match(subjectName, pattern);
                         if (match.Success)
                         {
                             return match.Value;
                         }
-                    }
-                    catch (ArgumentException regexEx)
-                    {
-                        Console.WriteLine($"[WARNING] Ошибка в регулярном выражении: {regexEx.Message}");
-                        continue;
-                    }
+
                 }
                 if (subjectName.Contains("МДК"))
                 {
@@ -292,7 +285,7 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError($"Ошибка при извлечении кода предмета из '{subjectName}'", ex);
+                HandleError($"Ошибка при извлечении кода предмета из '{subjectName}'");
                 return string.Empty;
             }
         }
@@ -315,11 +308,11 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError($"Ошибка при очистке названия предмета '{subjectName}'", ex);
+                HandleError($"Ошибка при очистке названия предмета '{subjectName}'");
                 return subjectName ?? "Ошибка названия";
             }
         }
-        private void HandleError(string message, Exception ex)
+        private void HandleError(string message)
         {
 
 
@@ -327,7 +320,7 @@ namespace volpt.MVVM.ViewModel
             {
 
                 MessageBox.Show(
-                        $"{message}:\n{ex.Message}",
+                        $"{message}\n",
                         "Ошибка",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);

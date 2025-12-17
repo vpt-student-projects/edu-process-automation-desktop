@@ -126,7 +126,7 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при переходе на предыдущую страницу", ex);
+                HandleError("Ошибка при переходе на предыдущую страницу");
             }
         }
 
@@ -140,7 +140,7 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при переходе на следующую страницу", ex);
+                HandleError("Ошибка при переходе на следующую страницу");
             }
         }
 
@@ -194,21 +194,21 @@ namespace volpt.MVVM.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        HandleError("Ошибка при построении страницы", ex);
+                        HandleError("Ошибка при построении страницы");
                     }
                 });
             }
             catch (DbUpdateException dbEx)
             {
-                HandleError("Ошибка обновления базы данных при загрузке данных", dbEx);
+                HandleError("Ошибка обновления базы данных при загрузке данных");
             }
             catch (InvalidOperationException ioEx)
             {
-                HandleError("Ошибка операции с базой данных", ioEx);
+                HandleError("Ошибка операции с базой данных");
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при загрузке данных", ex);
+                HandleError("Ошибка при загрузке данных");
             }
         }
 
@@ -275,7 +275,7 @@ namespace volpt.MVVM.ViewModel
                         }
                         catch (Exception ex)
                         {
-                            HandleError($"Ошибка при создании записи оценки для студента {st.FullName} на дату {date:dd.MM.yyyy}", ex);
+                            HandleError($"Ошибка при создании записи оценки для студента {st.FullName} на дату {date:dd.MM.yyyy}");
                             continue;
                         }
                     }
@@ -297,7 +297,7 @@ namespace volpt.MVVM.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        HandleError($"Ошибка при расчете средней оценки для студента {st.FullName}", ex);
+                        HandleError($"Ошибка при расчете средней оценки для студента {st.FullName}");
                         Students.Add(new StudentPerformance
                         {
                             FullName = st.FullName,
@@ -334,7 +334,7 @@ namespace volpt.MVVM.ViewModel
                         }
                         catch (Exception ex)
                         {
-                            HandleError($"Ошибка при создании записи посещаемости для студента {st.FullName} на дату {date:dd.MM.yyyy}", ex);
+                            HandleError($"Ошибка при создании записи посещаемости для студента {st.FullName} на дату {date:dd.MM.yyyy}");
                             continue;
                         }
                     }
@@ -359,7 +359,7 @@ namespace volpt.MVVM.ViewModel
                             }
                             catch (Exception ex)
                             {
-                                HandleError($"Ошибка при пересчете процента посещаемости для студента {st.FullName}", ex);
+                                HandleError($"Ошибка при пересчете процента посещаемости для студента {st.FullName}");
                                 studentAttendance.AttendancePercentage = 0;
                             }
                         }
@@ -375,7 +375,7 @@ namespace volpt.MVVM.ViewModel
                                 }
                                 catch (Exception ex)
                                 {
-                                    HandleError($"Ошибка при обработке изменения статуса посещаемости", ex);
+                                    HandleError($"Ошибка при обработке изменения статуса посещаемости");
                                 }
                             };
                         }
@@ -385,13 +385,13 @@ namespace volpt.MVVM.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        HandleError($"Ошибка при добавлении студента {st.FullName} в список посещаемости", ex);
+                        HandleError($"Ошибка при добавлении студента {st.FullName} в список посещаемости");
                     }
                 }
             }
             catch (Exception ex)
             {
-                HandleError("Критическая ошибка при построении страницы", ex);
+                HandleError("Критическая ошибка при построении страницы");
                 Dates.Clear();
                 Students.Clear();
                 AttendanceStudents.Clear();
@@ -412,7 +412,7 @@ namespace volpt.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandleError($"Ошибка при обновлении средней оценки для студента ID={studentId}", ex);
+                HandleError($"Ошибка при обновлении средней оценки для студента ID={studentId}");
             }
         }
 
@@ -461,11 +461,11 @@ namespace volpt.MVVM.ViewModel
             }
             catch (DbUpdateException dbEx)
             {
-                HandleError("Ошибка базы данных при сохранении оценки", dbEx);
+                HandleError("Ошибка базы данных при сохранении оценки");
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при сохранении оценки", ex);
+                HandleError("Ошибка при сохранении оценки");
             }
         }
 
@@ -510,23 +510,23 @@ namespace volpt.MVVM.ViewModel
             }
             catch (DbUpdateException dbEx)
             {
-                HandleError("Ошибка базы данных при сохранении посещаемости", dbEx);
+                HandleError("Ошибка базы данных при сохранении посещаемости");
             }
             catch (Exception ex)
             {
-                HandleError("Ошибка при сохранении посещаемости", ex);
+                HandleError("Ошибка при сохранении посещаемости");
             }
         }
 
         /// <summary>
         /// Универсальный обработчик ошибок
         /// </summary>
-        private void HandleError(string message, Exception ex)
+        private void HandleError(string message)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
                 MessageBox.Show(
-                    $"{message}:\n{ex.Message}",
+                    $"{message}\n",
                     "Ошибка",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
