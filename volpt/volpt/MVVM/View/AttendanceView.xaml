@@ -155,14 +155,17 @@
                                                                 BorderThickness="0,0,1,0"
                                                                 BorderBrush="{StaticResource SecondaryBrush}"
                                                                 Padding="0"
-                                                                Background="{Binding Display, Converter={StaticResource StatusToBrushConverter}}" 
                                                                 ToolTip="{Binding ToolTipText}">
-                                                            <TextBlock Text="{Binding Display}"
-                                                                       HorizontalAlignment="Center"
-                                                                       VerticalAlignment="Center"
-                                                                       FontWeight="Bold"
-                                                                       FontSize="14"
-                                                                       Foreground="{Binding Display, Converter={StaticResource StatusToForegroundConverter}}"/>
+                                                            <Border  CornerRadius="4"
+                                                                Background="{Binding Display, Converter={StaticResource StatusToBrushConverter}}" >
+
+                                                                <TextBlock Text="{Binding Display}"
+                                                                           HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           FontWeight="Bold"
+                                                                           FontSize="14"
+                                                                           Foreground="{Binding Display, Converter={StaticResource StatusToForegroundConverter}}"/>
+                                                            </Border>
                                                         </Button>
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
