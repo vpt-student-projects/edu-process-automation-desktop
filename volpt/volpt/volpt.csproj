@@ -7,6 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <Obfuscate>true</Obfuscate>
+    <ApplicationIcon>Images\favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,6 +30,7 @@
     <None Remove="Fonts\SF-Pro-Rounded-Thin.otf" />
     <None Remove="Fonts\SF-Pro-Rounded-Ultralight.otf" />
     <None Remove="Images\chevron.left.png" />
+    <None Remove="Images\favicon.ico" />
     <None Remove="Images\logout.png" />
     <None Remove="Images\numbersign.png" />
     <None Remove="Images\person.jpg" />
@@ -38,6 +40,16 @@
     <None Remove="Images\впт_логотипsmall.png" />
     <None Remove="logout.jpg" />
     <None Remove="MVVM\View\впт_логотип 1.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\favicon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\favicon.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

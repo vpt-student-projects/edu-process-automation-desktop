@@ -60,8 +60,7 @@
                         <!-- Заголовок "Студент" -->
                     <Border Grid.Column="0" 
                             BorderBrush="{StaticResource SecondaryBrush}" 
-                            BorderThickness="0,0,0,1"
-                            Background="{StaticResource BackgroundLightBrush}">
+                            BorderThickness="0,0,0,1">
                         <Grid>
                             <!-- Имя студента -->
                             <Border Width="200" 
@@ -106,7 +105,7 @@
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
                             <!-- Колонка с процентом посещаемости -->
-                            <Border Width="100" 
+                            <Border Width="77" 
                                     HorizontalAlignment="Right"
                                     BorderBrush="{StaticResource SecondaryBrush}" 
                                     BorderThickness="1,0,0,0">
@@ -175,7 +174,7 @@
                                             </ItemsControl>
 
                                             <!-- Процент посещаемости -->
-                                            <Border Width="100"
+                                            <Border Width="60"
                                                     HorizontalAlignment="Right"
                                                     BorderBrush="{StaticResource SecondaryBrush}" 
                                                     BorderThickness="1,0,0,0"

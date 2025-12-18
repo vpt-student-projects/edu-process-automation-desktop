@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:volpt.MVVM.View"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="768" Width="1024"
+        Title="Вход" Height="768" Width="1024"
         SnapsToDevicePixels="True"
         UseLayoutRounding="True">
     

@@ -85,7 +85,7 @@
                                    ToolTip="Количество предметов"/>
                     </StackPanel>
 
-                    <!-- Кнопки действий -->
+                    <!-- Кнопки действий --><!--
                     <StackPanel Grid.Column="3"
                                 Orientation="Horizontal"
                                 VerticalAlignment="Center"
@@ -102,7 +102,7 @@
                                 ToolTip="Список студентов"
                                 Padding="8,4"
                                 Margin="4,0"/>
-                    </StackPanel>
+                    </StackPanel>-->
                 </Grid>
             </Border>
 
@@ -172,6 +172,7 @@
                             <DataTemplate>
                                 <!-- Выглядит как текст-ссылка: при наведении подчеркивается -->
                                 <TextBlock Text="{Binding DisplayName}"
+                                           Margin="8"
                                            Style="{StaticResource H5}"
                                            Foreground="{StaticResource PrimaryColorBrush}"
                                            Cursor="Hand"

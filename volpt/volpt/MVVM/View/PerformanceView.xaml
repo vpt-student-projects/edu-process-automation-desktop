@@ -62,8 +62,7 @@
                     <!-- Заголовки таблицы -->
                     <Border Grid.Row="0" 
                             BorderBrush="{StaticResource SecondaryBrush}" 
-                            BorderThickness="0,0,0,1"
-                            Background="{StaticResource BackgroundLightBrush}">
+                            BorderThickness="0,0,0,1">
                         <Grid>
                             <Border Width="200" HorizontalAlignment="Left"
                                     BorderBrush="{StaticResource SecondaryBrush}" 

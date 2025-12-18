@@ -27,5 +27,10 @@ namespace volpt.MVVM.View
             InitializeComponent();
             DataContext = new AttendancePageViewModel(groupId, subjectId);
         }
+
+        private void AttendanceView_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

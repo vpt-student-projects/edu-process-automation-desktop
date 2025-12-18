@@ -44,7 +44,7 @@
                                            Style="{StaticResource H6}" 
                                            HorizontalAlignment="Center"/>
                             </Border>
-                            <TextBlock Text="{Binding Subject}"
+                            <TextBlock Text="{Binding Subject}" TextWrapping="Wrap"
                                        Style="{StaticResource H5}" />
                         </StackPanel>
 
