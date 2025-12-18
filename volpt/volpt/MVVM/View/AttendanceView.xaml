@@ -153,11 +153,14 @@
                                                                 Height="40"
                                                                 Command="{Binding ToggleStatusCommand}"
                                                                 BorderThickness="0,0,1,0"
+                                                                Background="Transparent"
                                                                 BorderBrush="{StaticResource SecondaryBrush}"
-                                                                Padding="0"
                                                                 ToolTip="{Binding ToolTipText}">
-                                                            <Border  CornerRadius="4"
-                                                                Background="{Binding Display, Converter={StaticResource StatusToBrushConverter}}" >
+
+                                                            <Border  CornerRadius="2"
+                                                                     HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                     Width="36" Height="36"
+                                                                     Background="{Binding Display, Converter={StaticResource StatusToBrushConverter}}" >
 
                                                                 <TextBlock Text="{Binding Display}"
                                                                            HorizontalAlignment="Center"
