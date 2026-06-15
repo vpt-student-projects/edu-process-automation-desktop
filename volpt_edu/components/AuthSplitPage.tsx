@@ -8,8 +8,18 @@ import { getStoredUser, hasAuthSession, isAdminRole } from "@/lib/auth/session";
 export default function AuthSplitPage() {
     const [activeTab, setActiveTab] = useState<"landing" | "login">("landing");
     const [isMobile, setIsMobile] = useState(false);
+    const [hasSession, setHasSession] = useState<boolean | null>(null);
     const router = useRouter();
-    const hasSession = hasAuthSession();
+    useEffect(() => {
+        setHasSession(hasAuthSession());
+    }, []);
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 1024);
+        check();
+        window.addEventListener("resize", check);
+
+        return () => window.removeEventListener("resize", check);
+    }, []);
 
     useEffect(() => {
         if (hasSession) {
@@ -17,13 +27,13 @@ export default function AuthSplitPage() {
             router.replace(isAdminRole(user?.role) ? "/admin" : "/schedule");
         }
     }, [hasSession, router]);
-
-    useEffect(() => {
-        const check = () => setIsMobile(window.innerWidth < 1024);
-        check();
-        window.addEventListener("resize", check);
-        return () => window.removeEventListener("resize", check);
-    }, []);
+    if (hasSession === null) {
+        return (
+            <main className="min-h-screen flex items-center justify-center">
+                <div className="text-body text-text/80">Загрузка...</div>
+            </main>
+        );
+    }
 
     if (hasSession) {
         return (
