@@ -34,7 +34,6 @@ export default function AuthSplitPage() {
             </main>
         );
     }
-
     if (hasSession) {
         return (
             <main className="min-h-screen flex items-center justify-center">
