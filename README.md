@@ -1,3 +1,7 @@
+[![GitHub repo size](https://img.shields.io/github/repo-size/vpt-student-projects/edu-process-automation-web)](https://github.com/vpt-student-projects/edu-process-automation-web)
+[![GitHub last commit](https://img.shields.io/github/last-commit/vpt-student-projects/edu-process-automation-web)](https://github.com/vpt-student-projects/edu-process-automation-web/commits/main)
+[![GitHub license](https://img.shields.io/github/license/vpt-student-projects/edu-process-automation-web)](https://github.com/vpt-student-projects/edu-process-automation-web/blob/main/LICENSE)
+[![Stars](https://img.shields.io/github/stars/vpt-student-projects/edu-process-automation-web)](https://github.com/vpt-student-projects/edu-process-automation-web/stargazers)
 # edu-process-automation-web
 
 Дипломный проект "Разработка веб-сайта для автоматизации учебного процесса"
